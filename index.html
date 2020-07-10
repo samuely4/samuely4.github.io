@@ -1,7 +1,67 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+    <header class="text-center py-5" style="background-color:#2f4357;">
+        <div class="container">
+            <h1 class="font-weight-light text-white">New York City</h1>
+            <h3 class="font-weight-light text-white">During COVID-19 Pandemic</h3>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="row py-5 pl-5 pr-5">
+            <div class="col-md-8">
+                <h2>Introduction</h2>
+                <h5>
+                    The first case relating to the COVID-19 pandemic was confirmed in New York City in March 2020 by a woman who had recently traveled to New York City from Iran,
+                    a country seriously affected already by the COVID-19 pandemic at the time. Nearly a month later,
+                    the metropolitan area was the worst-affected area in the country, with its medical infrastructure overtaxed.
+                    By April, the city had more confirmed coronavirus cases than China, the U.K.,
+                    or Iran, and by May, had more cases than any country other than the United States.
+                    On March 20, the governor's office issued an executive order closing down non-essential businesses.
+                    The city's public transportation system remained open but experienced crowding due to reduced transit service and an increase of homeless persons seeking shelter on the subway.
+                    By April, hundreds of thousands of New Yorkers were out of work with lost tax revenues estimated to run into the billions.
+                    Low income jobs in the retail, transportation and restaurant sectors are especially affected.
+                    The drop in income, sales tax and tourism revenues including hotel tax revenue may have cost the city up to $10 billion.
+                    Mayor Bill de Blasio has said the city's unemployment system collapsed following a surge in claims and it will require federal assistance to maintain basic services.
+                    The ongoing pandemic is the deadliest disaster by death toll in the history of New York City. The following is an interactive slideshow outlining the most difficult 4 months
+                    (March, April, May, June) of 2020 during which New Yorkers fought the virus bravely.
+                </h5>
+            </div>
+            <div class="col-md-4">
+                <img src="images/NYCCOVID.jpg" class="img-fluid" alt="NYC During COVID-19 Pandemic">
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <div class="col-md-12 d-flex justify-content-around">
+                <button class="btn btn-secondary btn-lg" value="3">March</button>
+                <button class="btn btn-secondary btn-lg" value="34">March-April</button>
+                <button class="btn btn-secondary btn-lg" value="35">March-May</button>
+                <button class="btn btn-secondary btn-lg" value="36">March-June</button>
+            </div>
+        </div>
+        <hr />
+        <div class="row">
+            <svg width="1390" height="350" id="barChart">
+                <g></g>
+                <rect width="106.8" height="43" x=48.15% y=9% fill=#edbb00 rx="15" ry="15"></rect>
+                <text id="whatmonth" x=51.95% y=15% font-family="sans-serif" font-size="18px" fill=black text-anchor="middle" alignment-baseline="central"></text>
+                <image id="annotation" xlink:href="https://raw.githubusercontent.com/amiralishd/FC-Barcelona-Championships/master/images/FCB_logo.png" x=606 y=-100 height="40px" width="40px">
+                </image>
+            </svg>
+        </div>
+    </div>
+
+
+
+
+
+    <script type="text/javascript" src="d3/d3.min.js"></script>
+    <script type="text/javascript" src="js/jquery-3.2.1.slim.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
 </body>
 </html>
