@@ -35,23 +35,31 @@
             </div>
         </div>
         <hr />
-        <div class="row">
+        <div class="row py-5 pl-5 pr-5">
             <div class="col-md-12 d-flex justify-content-around">
-                <button class="btn btn-secondary btn-lg" value="3">March</button>
-                <button class="btn btn-secondary btn-lg" value="34">March-April</button>
-                <button class="btn btn-secondary btn-lg" value="35">March-May</button>
-                <button class="btn btn-secondary btn-lg" value="36">March-June</button>
+                <button class="btn btn-secondary btn-lg" value=3 onclick="showChart(this)">March</button>
+                <button class="btn btn-secondary btn-lg" value=34 onclick="showChart(this)">March-April</button>
+                <button class="btn btn-secondary btn-lg" value=35 onclick="showChart(this)">March-May</button>
+                <button class="btn btn-secondary btn-lg" value=36 onclick="showChart(this)">March-June</button>
             </div>
         </div>
         <hr />
-        <div class="row">
-            <svg width="1390" height="350" id="barChart">
-                <g></g>
-                <rect width="106.8" height="43" x=48.15% y=9% fill=#edbb00 rx="15" ry="15"></rect>
-                <text id="whatmonth" x=51.95% y=15% font-family="sans-serif" font-size="18px" fill=black text-anchor="middle" alignment-baseline="central"></text>
-                <image id="annotation" xlink:href="Images/NYC_logo.png" x=606 y=-100 height="40px" width="40px">
-                </image>
-            </svg>
+        <div class="row py-5 pl-5 pr-5">
+            <div class="col-md-12">
+                <svg width="1390" height="500" id="NYCCOVIDBar">
+                    <g></g>
+                    <rect width="105" height="43" x=48.15% y=9% fill="#6c757d" rx="15" ry="15"></rect>
+                    <text id="month" x=51.95% y=13% font-family="sans-serif" font-size="15px" fill=white text-anchor="middle" alignment-baseline="central"></text>
+                    <image id="annotation" xlink:href="Images/NYC_logo.png" x=606 y=-100 height="40px" width="40px">
+                    </image>
+                </svg>
+            </div>
+        </div>
+        <div class="row py-5 pl-5 pr-5" id="monthStory">
+            <div class="col-md-12">
+                <img id="monthImg" src="" alt="NYC COVID-19 Month StoryLine" class="img-fluid">
+                <p><span id="monthDev"></span></p>
+            </div>
         </div>
     </div>
 
@@ -64,6 +72,148 @@
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/popper.min.js"></script>
 
+
+    <script>
+
+        document.getElementById("NYCCOVIDBar").style.display = "none";
+        document.getElementById("monthDev").style.display = "none";
+
+        function hideChart() {
+            document.getElementById("NYCCOVIDBar").style.display = "none";
+            document.getElementById("monthDev").style.display = "none";
+            document.getElementById("monthImg").style.display = "none";
+
+            d3.select("svg").select("g").selectAll(".chart").data([]).exit().remove()
+
+            d3.select("svg").select("image").attr("x", 606).attr("y", -100)
+        }
+
+        function showChart(monthVal) {
+            document.getElementById("NYCCOVIDBar").style.display = "block";
+            document.getElementById("monthDev").style.display = "block";
+            document.getElementById("monthImg").style.display = "block";
+
+
+            if (monthVal.value == 3) {
+                monthText = "";
+                monthShow = "March";
+            }
+            else if (monthVal.value == 34) {
+                monthText = "";
+                monthShow = "March - April";
+            }
+            else if (monthVal.value == 35) {
+                monthText = "";
+                monthShow = "March - May";
+            }
+            else if (monthVal.value == 36) {
+                monthText = "";
+                monthShow = "March - June";
+            }
+
+            document.getElementById("monthDev").innerHTML = monthText;
+            document.getElementById("month").innerHTML = monthShow;
+
+            
+
+            NYC_data = "https://raw.githubusercontent.com/samuely4/samuely4.github.io/master/data/NYCData.csv"
+            d3.csv(NYC_data, function (d) {
+                return {
+                    Date = ["Date"],
+                    caseCount = +d["Case Count"],
+                    deathCount = +d["Death Count"],
+                    HospCount = +d["Hospitalized Count"],
+                    percPositive = +d["Percent Positive"],
+                    posTests = +d["Positive Tests"],
+                    totTests = +d["Total Tests"],
+                };
+            }).then(function (data, indx) {
+                
+                console.log(data)
+                var svg = d3.select("svg"),
+                    margin = { top: 60, right: 100, bottom: 40, left: 40 },
+                    width = +svg.attr("width") - margin.left - margin.right,
+                    height = +svg.attr("height") - margin.top - margin.bottom;
+
+                var tooltip = d3.select("body").append("div").attr("class", "toolTip");
+
+                    var DateData = [
+                        {
+                            "date": "3/1/2020"
+                        },
+                        {
+                            "date": "4/1/2020"
+                        },
+                        {
+                            "date": "5/1/2020"
+                        },
+                        {
+                            "date": "6/1/2020"
+                        },
+                        {
+                            "date": "7/1/2020"
+                        }
+                    ]
+                let timeFormat = "%b %d"
+                    var x = d3.scaleTime()
+                        .domain(d3.extent(DateData, function (d) { return new Date(d.date) }))
+                        .range([0, width]);
+                var y = d3.scaleLinear().domain([0, 6500]).rangeRound([height, 0]);
+
+                var g = svg.select("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+                g.select("g")
+                    .attr("transform", `translate(0, ${ height })`)
+                    .call(d3.axisBottom(x).tickFormat(d3.timeFormat(timeFormat)));
+
+                g.append("text")
+                    .attr("transform", "translate(" + (0.999 * width) + " ," + (height + margin.top - 25) + ")")
+
+
+                g.append("g")
+                 .call(d3.axisLeft(y).ticks(20));
+
+                    var Recs = 0
+                    if (monthVal.value == 3) {
+                        Recs = 31;
+                    }
+                    else if (monthVal.value == 34) {
+                        Recs = 61;
+                    }
+                    else if (monthVal.value == 35) {
+                        Recs = 91;
+                    }
+                    else if (monthVal.value == 36) {
+                        Recs = 122;
+                    }
+
+                    //console.log(Recs)
+
+                 //g.selectAll(".chart")
+                 //   .data(data.slice(0, Recs + 1))
+                 //   .enter().append("rect")
+                 //   .attr("x", function (d) { return x(new Date(d.Date)); })
+                 //   .attr("y", function (d) { return y(0); })
+                 //   .transition().duration(1000)
+                 //   .attr("y", function (d) { return y(d.caseCount); })
+                 //   .attr("height", function (d) { return height - y(d.caseCount); })
+                 //   .attr("width", 9)
+
+            });
+        }
+
+        function tooltipcontent(d) {
+            if (d.caseCount > 0) { monthShow += "<br> " + d.caseCount; }
+            if (d.deathCount > 0) { monthShow += "<br> " + d.deathCount; }
+            if (d.HospCount > 0) { monthShow += "<br> " + d.HospCount; }
+            if (d.percPositive > 0) { monthShow += "<br> " + d.percPositive; }
+            if (d.posTests > 0) { monthShow += "<br> " + d.posTests; }
+            if (d.totTests > 0) { monthShow += "<br> " + d.totTests; }
+            return monthShow
+        }
+
+    </script>
 
 </body>
 </html>

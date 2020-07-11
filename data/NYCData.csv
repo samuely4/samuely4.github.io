@@ -1,4 +1,4 @@
-﻿Date,Date Of Interest,Case Count,Death Count,Hospitalized Count,Percent Positive,Percent Positive 3Days Agg,Positive Tests,Total Tests
+﻿Date,Date_Of_Interest,Case_Count,Death_Count,Hospitalized_Count,Percent_Positive,Percent_Positive_3Days_Agg,Positive_Tests,Total_Tests
 3/1/2020,3/1/2020,0,0,4,0,0,0,0
 3/2/2020,3/2/2020,0,0,22,0,0,0,0
 3/3/2020,3/3/2020,2,0,20,0.07,0,1,14
