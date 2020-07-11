@@ -48,8 +48,7 @@
             <div class="col-md-12">
                 <svg width="1390" height="500" id="NYCCOVIDBar">
                     <g></g>
-                    <rect width="105" height="43" x=48.15% y=9% fill="#6c757d" rx="15" ry="15"></rect>
-                    <text id="month" x=51.95% y=13% font-family="sans-serif" font-size="15px" fill=white text-anchor="middle" alignment-baseline="central"></text>
+                    <text id="month" x=51.95% y=13% font-family="sans-serif" font-size="20px" fill=black text-anchor="middle" alignment-baseline="central"></text>
                     <image id="annotation" xlink:href="Images/NYC_logo.png" x=606 y=-100 height="40px" width="40px">
                     </image>
                 </svg>
@@ -95,110 +94,92 @@
 
 
             if (monthVal.value == 3) {
-                monthText = "";
+                monthText = "paragraph for each month";
                 monthShow = "March";
             }
             else if (monthVal.value == 34) {
-                monthText = "";
+                monthText = "paragraph for each month";
                 monthShow = "March - April";
             }
             else if (monthVal.value == 35) {
-                monthText = "";
+                monthText = "paragraph for each month";
                 monthShow = "March - May";
             }
             else if (monthVal.value == 36) {
-                monthText = "";
+                monthText = "paragraph for each month";
                 monthShow = "March - June";
             }
 
             document.getElementById("monthDev").innerHTML = monthText;
             document.getElementById("month").innerHTML = monthShow;
-
-            
+            var svg = d3.select("svg");
+            var margin = { top: 60, right: 100, bottom: 40, left: 40 };
+            var width = +svg.attr("width") - margin.left - margin.right;
+            var height = +svg.attr("height") - margin.top - margin.bottom;
+            var parseTime = d3.timeParse("%m/%d/%Y");
+            var x = d3.scaleTime().range([width / 122 / 2, width - width / 122 / 2]);
+            var y = d3.scaleLinear().domain([0, 6500]).range([height, 0]);
 
             NYC_data = "https://raw.githubusercontent.com/samuely4/samuely4.github.io/master/data/NYCData.csv"
             d3.csv(NYC_data, function (d) {
                 return {
-                    Date = ["Date"],
-                    caseCount = +d["Case Count"],
-                    deathCount = +d["Death Count"],
-                    HospCount = +d["Hospitalized Count"],
-                    percPositive = +d["Percent Positive"],
-                    posTests = +d["Positive Tests"],
-                    totTests = +d["Total Tests"],
+                    Date_of_Interest : d.Date,
+                    caseCount : +d.Case_Count,
+                    deathCount : +d.Death_Count,
+                    HospCount : +d.Hospitalized_Count,
+                    percPositive : +d.Percent_Positive,
+                    posTests : +d.Positive_Tests,
+                    totTests : +d.Total_Tests
                 };
             }).then(function (data, indx) {
-                
-                console.log(data)
-                var svg = d3.select("svg"),
-                    margin = { top: 60, right: 100, bottom: 40, left: 40 },
-                    width = +svg.attr("width") - margin.left - margin.right,
-                    height = +svg.attr("height") - margin.top - margin.bottom;
-
-                var tooltip = d3.select("body").append("div").attr("class", "toolTip");
-
-                    var DateData = [
-                        {
-                            "date": "3/1/2020"
-                        },
-                        {
-                            "date": "4/1/2020"
-                        },
-                        {
-                            "date": "5/1/2020"
-                        },
-                        {
-                            "date": "6/1/2020"
-                        },
-                        {
-                            "date": "7/1/2020"
-                        }
-                    ]
-                let timeFormat = "%b %d"
-                    var x = d3.scaleTime()
-                        .domain(d3.extent(DateData, function (d) { return new Date(d.date) }))
-                        .range([0, width]);
-                var y = d3.scaleLinear().domain([0, 6500]).rangeRound([height, 0]);
-
+                data.forEach(function (d) {
+                    d.Date_of_Interest = parseTime(d.Date_of_Interest);
+                });
+                //console.log(data)
+                x.domain(d3.extent(data, function (d) { return d.Date_of_Interest; }))
                 var g = svg.select("g")
                     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-                g.select("g")
-                    .attr("transform", `translate(0, ${ height })`)
-                    .call(d3.axisBottom(x).tickFormat(d3.timeFormat(timeFormat)));
-
-                g.append("text")
-                    .attr("transform", "translate(" + (0.999 * width) + " ," + (height + margin.top - 25) + ")")
-
+                
+                const axis = d3.axisBottom(x).ticks(data.length / 2).tickFormat(d3.timeFormat("%b %d"));
+                
+                g.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(axis)
+                    .selectAll("text")
+                    .style("text-anchor", "end")
+                    .attr("dx", "-.8em")
+                    .attr("dy", ".15em")
+                    .attr("transform", "rotate(-65)");;
 
                 g.append("g")
-                 .call(d3.axisLeft(y).ticks(20));
+                 .call(d3.axisLeft(y).ticks(13));
 
-                    var Recs = 0
-                    if (monthVal.value == 3) {
-                        Recs = 31;
-                    }
-                    else if (monthVal.value == 34) {
-                        Recs = 61;
-                    }
-                    else if (monthVal.value == 35) {
-                        Recs = 91;
-                    }
-                    else if (monthVal.value == 36) {
-                        Recs = 122;
-                    }
+                var Recs = 0
+                if (monthVal.value == 3) {
+                    Recs = 31;
+                }
+                else if (monthVal.value == 34) {
+                    Recs = 61;
+                }
+                else if (monthVal.value == 35) {
+                    Recs = 92;
+                }
+                else if (monthVal.value == 36) {
+                    Recs = 122;
+                }
 
-                    //console.log(Recs)
+                //console.log(Recs)
 
-                 //g.selectAll(".chart")
-                 //   .data(data.slice(0, Recs + 1))
-                 //   .enter().append("rect")
-                 //   .attr("x", function (d) { return x(new Date(d.Date)); })
-                 //   .attr("y", function (d) { return y(0); })
-                 //   .transition().duration(1000)
-                 //   .attr("y", function (d) { return y(d.caseCount); })
-                 //   .attr("height", function (d) { return height - y(d.caseCount); })
-                 //   .attr("width", 9)
+                 g.selectAll(".chart")
+                    .data(data.slice(0, Recs))
+                    .enter().append("rect")
+                     .attr("x", function (d) { return x(d.Date_of_Interest) - (width / data.length) / 2; })
+                    .attr("y", function (d) { return y(0); })
+                    .transition().duration(1000)
+                    .attr("y", function (d) { return y(d.caseCount); })
+                    .attr("height", function (d) { return height - y(d.caseCount); })
+                     .attr("width", width / (data.length + 18))
 
             });
         }
