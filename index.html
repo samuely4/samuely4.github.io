@@ -174,12 +174,12 @@
                  g.selectAll(".chart")
                     .data(data.slice(0, Recs))
                     .enter().append("rect")
-                     .attr("x", function (d) { return x(d.Date_of_Interest) - (width / data.length) / 2; })
+                    .attr("x", function (d) { return x(d.Date_of_Interest) - (width / data.length) / 2; })
                     .attr("y", function (d) { return y(0); })
                     .transition().duration(1000)
                     .attr("y", function (d) { return y(d.caseCount); })
                     .attr("height", function (d) { return height - y(d.caseCount); })
-                     .attr("width", width / (data.length + 18))
+                    .attr("width", width / (data.length + 18))
 
             });
         }
