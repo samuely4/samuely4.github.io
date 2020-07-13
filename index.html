@@ -141,8 +141,7 @@
             var x = d3.scaleTime().range([width / 122 / 2, width - width / 122 / 2]);
             var y = d3.scaleLinear().domain([0, 6500]).range([height, 0]);
 
-            //"https://raw.githubusercontent.com/samuely4/samuely4.github.io/master/data/NYCData.csv"
-            NYC_data = 'data/NYCData.csv'
+            NYC_data = "https://raw.githubusercontent.com/samuely4/samuely4.github.io/master/data/NYCData2.csv"
             d3.csv(NYC_data, function (d) {
                 return {
                     Date_of_Interest : d.Date,
