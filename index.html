@@ -141,7 +141,7 @@
             var x = d3.scaleTime().range([width / 122 / 2, width - width / 122 / 2]);
             var y = d3.scaleLinear().domain([0, 6500]).range([height, 0]);
 
-            NYC_data = "https://raw.githubusercontent.com/samuely4/samuely4.github.io/master/data/NYCData2.csv"
+            NYC_data = "https://gist.githubusercontent.com/samuely4/1c9d38cefe1ab0d557721789fb99c03f/raw/9bd1130b031409445b5494805846e3605d281607/NYCData.csv"
             d3.csv(NYC_data, function (d) {
                 return {
                     Date_of_Interest : d.Date,
@@ -220,7 +220,8 @@
                          tooltip.style("left", d3.event.pageX + 10 + "px")
                              .style("top", d3.event.pageY + 10 + "px")
                              .html(tooltipcontent(d))
-                             .style("fill", "#BEBEBE")
+                             .style("background-color", "#25221E")
+                             .style("color", "white")
                              .style("display", "block")
                     })
                     .on("mouseout", function (d) {
@@ -235,6 +236,11 @@
                     .attr("width", width / (data.length + 18))
             });
 
+            g.selectAll("rect")
+                .data(data.slice(0, num.value - 1899))
+                .exit()
+                .transition().duration(1000).attr("y", function (d) { return y(0); }).attr("height", function (d) { return 0; })
+                .remove()
            
         }
 
