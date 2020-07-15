@@ -14,6 +14,14 @@
             text-align: center;
             font: 12px sans-serif;
         }
+
+        .rectFill {
+            fill: #000000;
+        }
+
+            .rectFill:hover {
+                fill: #1E90FF;
+            }
     </style>
     <link rel="stylesheet" href="css/bootstrap.min.css" />
 </head>
@@ -59,7 +67,7 @@
         </div>
         <hr />
         <div class="row py-1 pl-5 pr-5">
-            <div class="col-md-12">
+            <div class="col-md-10">
                 <svg width="1390" height="500" id="NYCCOVIDBar">
                     <g></g>
                     <text id="month" x=51.95% y=13% font-family="sans-serif" font-size="20px" fill=black text-anchor="middle" alignment-baseline="central"></text>
@@ -93,21 +101,10 @@
         document.getElementById("NYCCOVIDBar").style.display = "none";
         document.getElementById("monthDev").style.display = "none";
 
-        function hideChart() {
-            document.getElementById("NYCCOVIDBar").style.display = "none";
-            document.getElementById("monthDev").style.display = "none";
-            document.getElementById("monthImg").style.display = "none";
-
-            d3.select("svg").select("g").data([]).exit().remove()
-
-            d3.select("svg").select("image").attr("x", 606).attr("y", -100)
-        }
-
         function showChart(monthVal) {
             document.getElementById("NYCCOVIDBar").style.display = "block";
             document.getElementById("monthDev").style.display = "block";
             document.getElementById("monthImg").style.display = "block";
-
 
             if (monthVal.value == 3) {
                 monthText = "<h5>On March 3, New York Governor Andrew Cuomo announced that the first recorded case of person-to-person spread in New York State had been confirmed via a New Rochelle man who was working at a law firm within One Grand Central Place in Midtown Manhattan. Six days later, on March 9, Mayor Bill de Blasio announced that there were 16 confirmed cases of COVID - 19 in New York City. The virus then grew exponentially: by March 25, over 17, 800 cases had been confirmed in New York City, with 199 deaths.At the time, the city's infection rate was five times higher than the rest of the country, and its cases and were one - third of total confirmed US cases. The reasons for the high infection rate continue to be discussed. On March 27, infection in New York City surpassed 23,000, with 365 deaths. Queens was the worst - affected borough by number of deaths, with over a third of total deaths; the majority of the deceased had underlying health issues. Between March 28 and 29, the number of deaths in New York City tripled from the previous 24-hour period; 222 people died of the virus bringing the city's fatalities to 672, with 30,765 confirmed cases. The USNS Comfort hospital ship arrived in New York Harbor on March 30. Field hospitals were also set up in several places citywide. Refrigerator trucks were set up on city streets outside hospitals to accommodate the overflow of bodies of the deceased. On March 31, the first death of a child from COVID-19 in New York City was recorded.</h5>";
@@ -116,18 +113,18 @@
             }
             else if (monthVal.value == 34) {
                 monthText = "<h5>On April 4, Governor Cuomo announced that the Chinese government had arranged for a donation of 1,000 ventilators to be sent to New York through foundations run by Jack Maand Joseph Tsai. The state of Oregon was reported to be sending 140 ventilators. Trump announced that 1, 000 additional federal medical soldiers would be deployed to New York City. It was reported that 'Urban Area Medical Task Forces' made up of army reservists would be working in the New York City field hospitals and other parts of the country. As of April 4, there were 1,200 medical military personnel serving on the USNS Comfort. 2,700 New York State National Guardforces had also been deployed. On April 5, it was reported that a tiger at the Bronx Zoo had contracted COVID-19, the first known case of a tiger anywhere being infected with the disease.Several other 'big cats' were found to have COVID-19, the first of which had started showing symptoms on March 27; they were believed to have contracted COVID - 19 from an infected zookeeper who was not yet showing symptoms. This was also the first known case of an animal contracting the disease from human contact in the US. On April 22 it was reported that four additional tigers plus three lions had tested positive. On April 6 there were 72,181 confirmed cases, with at least 2,475 deaths. NYC accounted for 25% of COVID-19 deaths in the United States. The next day Gothamist reported that the death toll in New York City was undercounted. It was estimated that 1,125 people had died at home or on the street"
-                + "in NYC in the first five days of April, an eight-fold increase compared with FDNY figures for 2019. Due to the large increase, many of the deaths were presumed to be caused by COVID-19, but only residents with confirmed infections had been recorded in the official count. Due to the crisis circumstances of the pandemic, the real death toll was unknown. Bodies of those who had died at home, around 280 per day, were being picked up by the US Army, National Guard, and Air National Guard. As of April 8, at least 80 % of New York City virus patients put on ventilators had died. Some of the communities most affected by the pandemic included densely - populated neighborhoods in north-central Queens with high immigrant populations, including Corona, East Elmhurst, Elmhurst, and Jackson Heights. As of April 8, these communities, with a cumulative 600,000 residents, had recorded 7,260 COVID-19 cases. On April 23, state officials said that based on preliminary antibody testing results, they estimated around 21.2% of city residents had contracted COVID-19.</h5>";
-                monthShow = "April";
+                    + "in NYC in the first five days of April, an eight-fold increase compared with FDNY figures for 2019. Due to the large increase, many of the deaths were presumed to be caused by COVID-19, but only residents with confirmed infections had been recorded in the official count. Due to the crisis circumstances of the pandemic, the real death toll was unknown. Bodies of those who had died at home, around 280 per day, were being picked up by the US Army, National Guard, and Air National Guard. As of April 8, at least 80 % of New York City virus patients put on ventilators had died. Some of the communities most affected by the pandemic included densely - populated neighborhoods in north-central Queens with high immigrant populations, including Corona, East Elmhurst, Elmhurst, and Jackson Heights. As of April 8, these communities, with a cumulative 600,000 residents, had recorded 7,260 COVID-19 cases. On April 23, state officials said that based on preliminary antibody testing results, they estimated around 21.2% of city residents had contracted COVID-19.</h5>";
+                monthShow = "March - April";
                 imgSrc = "Images/NYCApril.jpg";
             }
             else if (monthVal.value == 35) {
                 monthText = "<h5>On May 10, de Blasio said 38 children were known to be affected by an inflammatory syndrome believed to be linked to an immune response to COVID-19. Known as pediatric multisystem inflammatory syndrome, the condition resembles Kawasaki disease. Symptoms include high fevers that can last for days, rash, racing heart beat, changes in skin color, redness of the tongue, and severe abdominal pain. At least one child has died in New York City, and two additional deaths have been reported statewide. The link with COVID-19 has not yet been proven, but at least 85 cases are being investigated statewide. On May 19, Cuomo confirmed 137 cases of the illness, stating it was 'the tip of the iceberg' with 90% of the cases testing positive for the virus or antibodies. A survey conducted May 5-12 and reported in the Centers for Disease Control and Prevention's Morbidity and Mortality Weekly Report found that 42% of 286 respondents residing in the New York City metropolitan area knew someone who had tested positive for COVID-19, and 23.1% knew someone who had died. These figures were considerably higher than those reported by respondents from Los Angeles(10.8% and 7.3%, respectively) and from across the United States (16.8% and 5.9%, respectively). During May, COVID-19 cases started to decline. After the George Floyd protests in New York City started in late May, public officials expressed concern about the spread of COVID-19 via the crowded events. The gatherings had led to fears about another wave of illness but no COVID-19 spikes have been recorded to date.</h5>";
-                monthShow = "May";
+                monthShow = "March - May";
                 imgSrc = "Images/NYCMay.jpg";
             }
             else if (monthVal.value == 36) {
                 monthText = "<h5>On June 8, the city partially reopened after meeting seven conditions of the PAUSE order, which had been put in place three months earlier. The 'Phase 1' reopening was limited to employees of construction jobs, agricultural workers, and those in the wholesale, manufacturing and retail sectors would return to work. In total, between 200,000 to 400,000 people were expected to return to work during Phase 1. Safety protocols were put in place to limit occupancy of confined spaces like elevators to one person at a time, and occupancy ceilings were reduced to under 50% of their usual capacity.</h5>";
-                monthShow = "June";
+                monthShow = "March - June";
                 imgSrc = "Images/NYCJune.jpg";
             }
 
@@ -141,17 +138,18 @@
             var x = d3.scaleTime().range([width / 122 / 2, width - width / 122 / 2]);
             var y = d3.scaleLinear().domain([0, 6500]).range([height, 0]);
 
-            NYC_data = "https://gist.githubusercontent.com/samuely4/1c9d38cefe1ab0d557721789fb99c03f/raw/9bd1130b031409445b5494805846e3605d281607/NYCData.csv"
+            NYC_data = "https://gist.githubusercontent.com/samuely4/e21d3b20847018b0f73f5652dc213735/raw/43858e255c482f67c9b6819c5eb5d14e70963ed6/NYCData.csv"
             d3.csv(NYC_data, function (d) {
                 return {
-                    Date_of_Interest : d.Date,
-                    caseCount : +d.Case_Count,
-                    deathCount : +d.Death_Count,
-                    HospCount : +d.Hospitalized_Count,
-                    percPositive : +d.Percent_Positive,
-                    posTests : +d.Positive_Tests,
+                    Date_of_Interest: d.Date,
+                    caseCount: +d.Case_Count,
+                    deathCount: +d.Death_Count,
+                    HospCount: +d.Hospitalized_Count,
+                    percPositive: +d.Percent_Positive,
+                    posTests: +d.Positive_Tests,
                     totTests: +d.Total_Tests,
-                    worstDayofMonth: +d.Worst_Day_of_Month
+                    worstDayofMonthDeath: +d.Worst_Day_of_Month_Death,
+                    worstDayofMonthcaseCount: +d.Worst_Day_of_Month_caseCount
                 };
             }).then(function (data, indx) {
                 data.forEach(function (d) {
@@ -195,7 +193,7 @@
                     .attr("x", 0 - (height / 2))
                     .attr("dy", "1em")
                     .style("text-anchor", "middle")
-                    .text("Case Count");  
+                    .text("Case Count");
 
                 var Recs = 0
                 if (monthVal.value == 3) {
@@ -213,35 +211,36 @@
 
                 //console.log(Recs)
 
-                 g.selectAll("rect")
+                g.selectAll("rect")
                     .data(data.slice(0, Recs))
                     .enter().append("rect")
+                    .attr("class", "rectFill")
                     .on("mousemove", function (d) {
-                         tooltip.style("left", d3.event.pageX + 10 + "px")
-                             .style("top", d3.event.pageY + 10 + "px")
-                             .html(tooltipcontent(d))
-                             .style("background-color", "#25221E")
-                             .style("color", "white")
-                             .style("display", "block")
+                        tooltip.style("left", d3.event.pageX + 10 + "px")
+                            .style("top", d3.event.pageY + 10 + "px")
+                            .html(tooltipcontent(d))
+                            .style("background-color", "#25221E")
+                            .style("color", "white")
+                            .style("display", "block")
                     })
                     .on("mouseout", function (d) {
-                         tooltip.style("display", "none");
+                        tooltip.style("display", "none");
                     })
                     .attr("x", function (d) { return x(d.Date_of_Interest) - (width / data.length) / 2; })
                     .attr("y", function (d) { return y(0); })
                     .transition().duration(1000)
                     .attr("y", function (d) { return y(d.caseCount); })
-                    .style("fill", function (d) { if (d.worstDayofMonth > 0) { return "#FF0000" }; })
+                    .style("fill", function (d) { if (d.worstDayofMonthDeath || d.worstDayofMonthcaseCount > 0) { return "#FF0000" }; })
                     .attr("height", function (d) { return height - y(d.caseCount); })
                     .attr("width", width / (data.length + 18))
+
+                g.selectAll("rect")
+                    .data(data.slice(0, Recs))
+                    .exit()
+                    .transition().duration(1000).attr("y", function (d) { return y(0); }).attr("height", function (d) { return 0; })
+                    .remove()
             });
 
-            g.selectAll("rect")
-                .data(data.slice(0, num.value - 1899))
-                .exit()
-                .transition().duration(1000).attr("y", function (d) { return y(0); }).attr("height", function (d) { return 0; })
-                .remove()
-           
         }
 
         function tooltipcontent(d) {
