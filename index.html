@@ -8,7 +8,7 @@
             min-width: 30px;
             height: auto;
             background: #edbb00;
-            opacity: 0.94;
+            
             border: .5px solid #004d98;
             padding: 4px;
             text-align: center;
@@ -22,6 +22,15 @@
             .rectFill:hover {
                 fill: #1E90FF;
             }
+        .textRed {
+            color: #ff0011;
+        }
+        .bordered {
+            width: auto;
+            height: auto;
+            padding: 20px;
+            border: 10px outset yellowgreen;
+        }
     </style>
     <link rel="stylesheet" href="css/bootstrap.min.css" />
 </head>
@@ -29,7 +38,7 @@
     <header class="text-center py-5" style="background-color:#2f4357;">
         <div class="container">
             <h1 class="font-weight-light text-white">New York City</h1>
-            <h3 class="font-weight-light text-white">During COVID-19 Pandemic</h3>
+            <h3 class="font-weight-light text-white">How the City Fought COVID-19 Pandemic and Won!!!</h3>
         </div>
     </header>
     <div class="container-fluid">
@@ -77,11 +86,11 @@
             </div>
         </div>
         <div class="row py-1 pl-5 pr-5" id="monthStory">
-            <div class="col-md-4 d-flex">
-                <img id="monthImg" src="" class="img-fluid rounded justify-content-center align-self-center">
+            <div class="col-md-4">
+                <img id="monthImg" src="" class="img-fluid rounded">
             </div>
             <div class="col-md-8">
-                <p><span id="monthDev"></span></p>
+                <p><span id="monthDev" class="bordered"></span></p>
             </div>
         </div>
     </div>
@@ -107,13 +116,13 @@
             document.getElementById("monthImg").style.display = "block";
 
             if (monthVal.value == 3) {
-                monthText = "<h5>On March 3, New York Governor Andrew Cuomo announced that the first recorded case of person-to-person spread in New York State had been confirmed via a New Rochelle man who was working at a law firm within One Grand Central Place in Midtown Manhattan. Six days later, on March 9, Mayor Bill de Blasio announced that there were 16 confirmed cases of COVID - 19 in New York City. The virus then grew exponentially: by March 25, over 17, 800 cases had been confirmed in New York City, with 199 deaths.At the time, the city's infection rate was five times higher than the rest of the country, and its cases and were one - third of total confirmed US cases. The reasons for the high infection rate continue to be discussed. On March 27, infection in New York City surpassed 23,000, with 365 deaths. Queens was the worst - affected borough by number of deaths, with over a third of total deaths; the majority of the deceased had underlying health issues. Between March 28 and 29, the number of deaths in New York City tripled from the previous 24-hour period; 222 people died of the virus bringing the city's fatalities to 672, with 30,765 confirmed cases. The USNS Comfort hospital ship arrived in New York Harbor on March 30. Field hospitals were also set up in several places citywide. Refrigerator trucks were set up on city streets outside hospitals to accommodate the overflow of bodies of the deceased. On March 31, the first death of a child from COVID-19 in New York City was recorded.</h5>";
+                monthText = "<h5>On March 3, New York Governor Andrew Cuomo announced that the first recorded case of person-to-person spread in New York State had been confirmed via a New Rochelle man who was working at a law firm within One Grand Central Place in Midtown Manhattan. Six days later, on March 9, Mayor Bill de Blasio announced that there were 16 confirmed cases of COVID-19 in New York City. The virus then grew exponentially: by March 25, over 17,800 cases had been confirmed in New York City, with 199 deaths. At the time, the city's infection rate was five times higher than the rest of the country, and its cases and were one-third of total confirmed US cases. The reasons for the high infection rate continue to be discussed. On March 27, infection in New York City surpassed 23,000, with 365 deaths. Queens was the worst-affected borough by number of deaths, with over a third of total deaths; the majority of the deceased had underlying health issues. Between March 28 and 29, the number of deaths in New York City tripled from the previous 24-hour period; 222 people died of the virus bringing the city's fatalities to 672, with 30,765 confirmed cases. The USNS Comfort hospital ship arrived in New York Harbor on March 30. Field hospitals were also set up in several places citywide. Refrigerator trucks were set up on city streets outside hospitals to accommodate the overflow of bodies of the deceased. On March 31, the first death of a child from COVID-19 in New York City was recorded.</h5>";
                 monthShow = "March";
                 imgSrc = "Images/NYCMarch.jpg";
             }
             else if (monthVal.value == 34) {
-                monthText = "<h5>On April 4, Governor Cuomo announced that the Chinese government had arranged for a donation of 1,000 ventilators to be sent to New York through foundations run by Jack Maand Joseph Tsai. The state of Oregon was reported to be sending 140 ventilators. Trump announced that 1, 000 additional federal medical soldiers would be deployed to New York City. It was reported that 'Urban Area Medical Task Forces' made up of army reservists would be working in the New York City field hospitals and other parts of the country. As of April 4, there were 1,200 medical military personnel serving on the USNS Comfort. 2,700 New York State National Guardforces had also been deployed. On April 5, it was reported that a tiger at the Bronx Zoo had contracted COVID-19, the first known case of a tiger anywhere being infected with the disease.Several other 'big cats' were found to have COVID-19, the first of which had started showing symptoms on March 27; they were believed to have contracted COVID - 19 from an infected zookeeper who was not yet showing symptoms. This was also the first known case of an animal contracting the disease from human contact in the US. On April 22 it was reported that four additional tigers plus three lions had tested positive. On April 6 there were 72,181 confirmed cases, with at least 2,475 deaths. NYC accounted for 25% of COVID-19 deaths in the United States. The next day Gothamist reported that the death toll in New York City was undercounted. It was estimated that 1,125 people had died at home or on the street"
-                    + "in NYC in the first five days of April, an eight-fold increase compared with FDNY figures for 2019. Due to the large increase, many of the deaths were presumed to be caused by COVID-19, but only residents with confirmed infections had been recorded in the official count. Due to the crisis circumstances of the pandemic, the real death toll was unknown. Bodies of those who had died at home, around 280 per day, were being picked up by the US Army, National Guard, and Air National Guard. As of April 8, at least 80 % of New York City virus patients put on ventilators had died. Some of the communities most affected by the pandemic included densely - populated neighborhoods in north-central Queens with high immigrant populations, including Corona, East Elmhurst, Elmhurst, and Jackson Heights. As of April 8, these communities, with a cumulative 600,000 residents, had recorded 7,260 COVID-19 cases. On April 23, state officials said that based on preliminary antibody testing results, they estimated around 21.2% of city residents had contracted COVID-19.</h5>";
+                monthText = "<h5>On April 4, Governor Cuomo announced that the Chinese government had arranged for a donation of 1,000 ventilators to be sent to New York through foundations run by Jack Maand Joseph Tsai. The state of Oregon was reported to be sending 140 ventilators. Trump announced that 1,000 additional federal medical soldiers would be deployed to New York City. It was reported that 'Urban Area Medical Task Forces' made up of army reservists would be working in the New York City field hospitals and other parts of the country. As of April 4, there were 1,200 medical military personnel serving on the USNS Comfort. 2,700 New York State National Guardforces had also been deployed. On April 5, it was reported that a tiger at the Bronx Zoo had contracted COVID-19, the first known case of a tiger anywhere being infected with the disease. Several other 'big cats' were found to have COVID-19, the first of which had started showing symptoms on March 27; they were believed to have contracted COVID-19 from an infected zookeeper who was not yet showing symptoms. This was also the first known case of an animal contracting the disease from human contact in the US. On April 22 it was reported that four additional tigers plus three lions had tested positive. On April 6 there were 72,181 confirmed cases, with at least 2,475 deaths. NYC accounted for 25% of COVID-19 deaths in the United States. The next day Gothamist reported that the death toll in New York City was undercounted. It was estimated that 1,125 people had died at home or on the street"
+                    + "in NYC in the first five days of April, an eight-fold increase compared with FDNY figures for 2019. Due to the large increase, many of the deaths were presumed to be caused by COVID-19, but only residents with confirmed infections had been recorded in the official count. Due to the crisis circumstances of the pandemic, the real death toll was unknown. Bodies of those who had died at home, around 280 per day, were being picked up by the US Army, National Guard, and Air National Guard. As of April 8, at least 80 % of New York City virus patients put on ventilators had died. Some of the communities most affected by the pandemic included densely-populated neighborhoods in north-central Queens with high immigrant populations, including Corona, East Elmhurst, Elmhurst, and Jackson Heights. As of April 8, these communities, with a cumulative 600,000 residents, had recorded 7,260 COVID-19 cases. On April 23, state officials said that based on preliminary antibody testing results, they estimated around 21.2% of city residents had contracted COVID-19.</h5>";
                 monthShow = "March - April";
                 imgSrc = "Images/NYCApril.jpg";
             }
@@ -244,10 +253,14 @@
         }
 
         function tooltipcontent(d) {
+            const monthsFull = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]
             const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+            let monthWarn = monthsFull[d.Date_of_Interest.getMonth()];
             let newDate = months[d.Date_of_Interest.getMonth()] + " " + d.Date_of_Interest.getDate();
             var dayShow = "";
             dayShow += newDate;
+            if (d.worstDayofMonthcaseCount > 0) { dayShow += "<br> <b class='textRed'>HIGHEST DAILY CASE COUNT FOR THE MONTH OF " + monthWarn + "</b>" }
+            if (d.worstDayofMonthDeath > 0) { dayShow += "<br> <b class='textRed'>HIGHEST DAILY DEATH COUNT FOR THE MONTH OF " + monthWarn + "</b>" }
             if (d.caseCount > 0) { dayShow += "<br> Case Count: " + d.caseCount; }
             if (d.deathCount > 0) { dayShow += "<br> Death Count: " + d.deathCount; }
             if (d.HospCount > 0) { dayShow += "<br> Hospitalized Count: " + d.HospCount; }
