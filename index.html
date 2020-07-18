@@ -31,6 +31,9 @@
             padding: 20px;
             border: 10px outset yellowgreen;
         }
+        .btn-secondary:hover{
+            background-color:brown !important;
+        }
     </style>
     <link rel="stylesheet" href="css/bootstrap.min.css" />
 </head>
@@ -68,10 +71,10 @@
         <hr />
         <div class="row py-2 pl-5 pr-5">
             <div class="col-md-12 d-flex justify-content-around">
-                <button class="btn btn-secondary btn-lg" value=3 onclick="showChart(this)">March</button>
-                <button class="btn btn-secondary btn-lg" value=34 onclick="showChart(this)">April</button>
-                <button class="btn btn-secondary btn-lg" value=35 onclick="showChart(this)">May</button>
-                <button class="btn btn-secondary btn-lg" value=36 onclick="showChart(this)">June</button>
+                <button class="btn btn-secondary btn-lg" value=3 onclick="showChart(this)">March 2020</button>
+                <button class="btn btn-secondary btn-lg" value=34 onclick="showChart(this)">April 2020</button>
+                <button class="btn btn-secondary btn-lg" value=35 onclick="showChart(this)">May 2020</button>
+                <button class="btn btn-secondary btn-lg" value=36 onclick="showChart(this)">June 2020</button>
             </div>
         </div>
         <hr />
@@ -80,8 +83,6 @@
                 <svg width="1390" height="500" id="NYCCOVIDBar">
                     <g></g>
                     <text id="month" x=51.95% y=13% font-family="sans-serif" font-size="20px" fill=black text-anchor="middle" alignment-baseline="central"></text>
-                    <image id="annotation" xlink:href="Images/NYC_logo.png" x=606 y=-100 height="40px" width="40px">
-                    </image>
                 </svg>
             </div>
         </div>
@@ -111,9 +112,13 @@
         document.getElementById("monthDev").style.display = "none";
 
         function showChart(monthVal) {
+
             document.getElementById("NYCCOVIDBar").style.display = "block";
             document.getElementById("monthDev").style.display = "block";
             document.getElementById("monthImg").style.display = "block";
+
+            var elmnt = document.getElementById("NYCCOVIDBar");
+            elmnt.scrollIntoView();
 
             if (monthVal.value == 3) {
                 monthText = "<h5>On March 3, New York Governor Andrew Cuomo announced that the first recorded case of person-to-person spread in New York State had been confirmed via a New Rochelle man who was working at a law firm within One Grand Central Place in Midtown Manhattan. Six days later, on March 9, Mayor Bill de Blasio announced that there were 16 confirmed cases of COVID-19 in New York City. The virus then grew exponentially: by March 25, over 17,800 cases had been confirmed in New York City, with 199 deaths. At the time, the city's infection rate was five times higher than the rest of the country, and its cases and were one-third of total confirmed US cases. The reasons for the high infection rate continue to be discussed. On March 27, infection in New York City surpassed 23,000, with 365 deaths. Queens was the worst-affected borough by number of deaths, with over a third of total deaths; the majority of the deceased had underlying health issues. Between March 28 and 29, the number of deaths in New York City tripled from the previous 24-hour period; 222 people died of the virus bringing the city's fatalities to 672, with 30,765 confirmed cases. The USNS Comfort hospital ship arrived in New York Harbor on March 30. Field hospitals were also set up in several places citywide. Refrigerator trucks were set up on city streets outside hospitals to accommodate the overflow of bodies of the deceased. On March 31, the first death of a child from COVID-19 in New York City was recorded.</h5>";
