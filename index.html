@@ -34,6 +34,27 @@
         .btn-secondary:hover{
             background-color:brown !important;
         }
+        .centroid circle {
+            fill: red;
+        }
+        form {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        .arc text {
+            font: 10px sans-serif;
+            text-anchor: middle;
+        }
+
+        .arc path {
+            stroke: #fff;
+        }
+
+        .title {
+            fill: teal;
+            font-weight: bold;
+        }
     </style>
     <link rel="stylesheet" href="css/bootstrap.min.css" />
 </head>
@@ -70,6 +91,7 @@
         </div>
         <hr />
         <div class="row py-2 pl-5 pr-5">
+            <h5>Please click below to see the spread of COVID-19 throughout the months of March, April, May, June of 2020 across the city:</h5>
             <div class="col-md-12 d-flex justify-content-around">
                 <button class="btn btn-secondary btn-lg" value=3 onclick="showChart(this)">March 2020</button>
                 <button class="btn btn-secondary btn-lg" value=34 onclick="showChart(this)">April 2020</button>
@@ -79,7 +101,7 @@
         </div>
         <hr />
         <div class="row py-1 pl-5 pr-5">
-            <div class="col-md-10">
+            <div class="col-md-12">
                 <svg width="1390" height="500" id="NYCCOVIDBar">
                     <g></g>
                     <text id="month" x=51.95% y=13% font-family="sans-serif" font-size="20px" fill=black text-anchor="middle" alignment-baseline="central"></text>
@@ -94,8 +116,32 @@
                 <p><span id="monthDev" class="bordered"></span></p>
             </div>
         </div>
-    </div>
+        <hr />
+        <div class="row py-5 pl-5 pr-5">
+            <h5>Below is a map outlining NYC neighbourhoods and their respective COVID-19 Statistics:</h5>
+            <div style="margin-left:auto">
+                <h5>Note : Hover your mouse over a neighbourhood to see related details</h5>
+            </div>
+            <div class="col-md-12 py-5 d-flex justify-content-around" id="nycMap">
 
+            </div>
+        </div>
+        <hr />
+        <div class="row py-5 pl-5 pr-5">
+            <h5>Please select the statistics related to the spread of COVID-19 across New York City:</h5>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <select id="statOption" onchange="showPieChart(this.value)">
+                <option value="nothing" selected>Select...</option>
+                <option value="AgeGroup"> Age</option>
+                <option value="Race"> Race </option>
+                <option value="PovertyLevel"> Poverty Level </option>
+            </select>
+            
+            <div class="col-md-12 py-5 d-flex justify-content-around" id="nycStats">
+                
+            </div>
+        </div>
+    </div>
 
 
 
@@ -116,6 +162,12 @@
             document.getElementById("NYCCOVIDBar").style.display = "block";
             document.getElementById("monthDev").style.display = "block";
             document.getElementById("monthImg").style.display = "block";
+            document.getElementById("nycMap").style.display = "block";
+            document.getElementById("nycStats").style.display = "block";
+
+            $(".myLegend").remove();
+            $(".myLegendText").remove();
+
 
             var elmnt = document.getElementById("NYCCOVIDBar");
             elmnt.scrollIntoView();
@@ -150,7 +202,14 @@
             var height = +svg.attr("height") - margin.top - margin.bottom;
             var parseTime = d3.timeParse("%m/%d/%Y");
             var x = d3.scaleTime().range([width / 122 / 2, width - width / 122 / 2]);
-            var y = d3.scaleLinear().domain([0, 6500]).range([height, 0]);
+            var y = d3.scaleLinear().domain([0, 7500]).range([height, 0]);
+
+            svg.append("circle").attr("cx", 1120).attr("cy", 20).attr("r", 6).style("fill", "#EE7600").attr("class", "myLegend")
+            svg.append("circle").attr("cx", 1120).attr("cy", 50).attr("r", 6).style("fill", "#FADA5E").attr("class", "myLegend")
+            svg.append("circle").attr("cx", 1120).attr("cy", 80).attr("r", 6).style("fill", "#FF0000").attr("class", "myLegend")
+            svg.append("text").attr("x", 1150).attr("y", 20).text("Highest Daily Death Count Per Month").style("font-size", "14px").attr("alignment-baseline", "middle").attr("class", "myLegendText")
+            svg.append("text").attr("x", 1150).attr("y", 50).text("Highest Daily Case Count Per Month").style("font-size", "14px").attr("alignment-baseline", "middle").attr("class", "myLegendText")
+            svg.append("text").attr("x", 1150).attr("y", 80).text("Both").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "myLegendText")
 
             NYC_data = "https://gist.githubusercontent.com/samuely4/e21d3b20847018b0f73f5652dc213735/raw/43858e255c482f67c9b6819c5eb5d14e70963ed6/NYCData.csv"
             d3.csv(NYC_data, function (d) {
@@ -225,9 +284,11 @@
 
                 //console.log(Recs)
 
-                g.selectAll("rect")
+                var bars = g.selectAll("rect")
                     .data(data.slice(0, Recs))
-                    .enter().append("rect")
+                    .enter().append('g');
+
+                    bars.append("rect")
                     .attr("class", "rectFill")
                     .on("mousemove", function (d) {
                         tooltip.style("left", d3.event.pageX + 10 + "px")
@@ -244,11 +305,36 @@
                     .attr("y", function (d) { return y(0); })
                     .transition().duration(1000)
                     .attr("y", function (d) { return y(d.caseCount); })
-                    .style("fill", function (d) { if (d.worstDayofMonthDeath || d.worstDayofMonthcaseCount > 0) { return "#FF0000" }; })
+                    .style("fill", function (d) {
+                        if (d.worstDayofMonthDeath && d.worstDayofMonthcaseCount > 0) { return "#FF0000" }
+                        else if (d.worstDayofMonthDeath > 0 && d.worstDayofMonthcaseCount == 0) { return "#EE7600" }
+                        else if (d.worstDayofMonthDeath == 0 && d.worstDayofMonthcaseCount > 0) { return "#FADA5E" }
+                    })
                     .attr("height", function (d) { return height - y(d.caseCount); })
                     .attr("width", width / (data.length + 18))
 
+                bars.append("text")
+                    .attr("class", "barLabel")
+                    .attr("x", function (d) { return x(d.Date_of_Interest) - (width / data.length) / 2; })
+                    .attr("y", function (d) { return (y(d.caseCount) - 30 ); })
+                    .text(function (d) {
+                        return d.caseCount;
+                    })
+                    .style("text-anchor", "start")
+                    .style("font-size", "13px")
+                    .attr("transform", function (d) {
+                        return "rotate(90 " + (x(d.Date_of_Interest) - (width / data.length) / 2) + ', ' + (y(d.caseCount) - 30) + ")"
+                    })
+                
+                    
+
                 g.selectAll("rect")
+                    .data(data.slice(0, Recs))
+                    .exit()
+                    .transition().duration(1000).attr("y", function (d) { return y(0); }).attr("height", function (d) { return 0; })
+                    .remove()
+
+                g.selectAll(".barLabel")
                     .data(data.slice(0, Recs))
                     .exit()
                     .transition().duration(1000).attr("y", function (d) { return y(0); }).attr("height", function (d) { return 0; })
@@ -278,25 +364,327 @@
     </script>
 
     <script>
-        d3.json('data/MODZCTA_2010_WGS1984.geo.json').then(function (bb) {
-            let width = 200, height = 200;
-            let projection = d3.geoEqualEarth();
-            projection.fitSize([width, height], bb);
+        var nycMap = d3.json('https://raw.githubusercontent.com/samuely4/samuely4.github.io/master/data/MODZCTA_2010_WGS1984.geo.json')
+        var nycMapDatatable = "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/data-by-modzcta.csv";
+        var nycMapdata = d3.csv(nycMapDatatable, function (d) {
+            return {
+                zcta: +d.MODIFIED_ZCTA,
+                NeighborhoodName: d.NEIGHBORHOOD_NAME,
+                Borough: d.BOROUGH_GROUP,
+                caseCount: +d.COVID_CASE_COUNT,
+                caseRate: +d.COVID_CASE_RATE,
+                Population: +d.POP_DENOMINATOR,
+                deathCount: +d.COVID_DEATH_COUNT,
+                deathRate: +d.COVID_DEATH_RATE,
+                totalCovidTests: +d.TOTAL_COVID_TESTS,
+                posTestsPerc: +d.PERCENT_POSITIVE
+            };
+        })
+        Promise.all([nycMap, nycMapdata]).then(function (values) {
+            let width = 1000, height = 800;
+            let projection = d3.geoMercator().translate([width / 2, height / 2]).scale(2200).center([0, 40]);
+            projection.fitSize([width, height], values[0]);
             let geoGenerator = d3.geoPath()
-            projection(projection);
-            
-            let svg = d3.select("body").append('svg')
-            .style("width", width).style("height", height);
-            
-            svg.append('g').selectAll('path')
-            .data(bb.features)
-            .join('path')
-            .attr('d', geoGenerator)
-            .attr('fill', '#088')
-            .attr('stroke', '#000');
-            
-        });
-    </script>
+                .projection(projection);
 
+            var NYCMaptooltip = d3.select("body").append("div").attr("class", "toolTip");
+
+            let svg = d3.select("#nycMap").append('svg')
+                .style("width", width).style("height", height);
+
+            nycCombined = joinData(values[0].features, values[1]);
+           
+            var filterRes = nycCombined.filter(function (o1) {
+                return o1.properties.MODZCTA != "99999";
+            })
+
+            var MaxCaseCount = Math.max.apply(Math, filterRes.map(function (o) {
+                return o.properties.caseCount;
+            }))
+
+            var MinCaseCount = Math.min.apply(Math, filterRes.map(function (o) {
+                return o.properties.caseCount;
+            }))
+
+            var colorScale = d3.scaleQuantize()
+                .domain([MinCaseCount, MaxCaseCount])
+                .range(["#fee5d9", "#fcbba1", "#fc9272", "#fb6a4a", "#ef3b2c", "#cb181d", "#99000d"])
+
+            svg.append("circle").attr("cx", 20).attr("cy", 20).attr("r", 9).style("fill", "#fee5d9").attr("class", "NYCMapmyLegend")
+            svg.append("circle").attr("cx", 20).attr("cy", 50).attr("r", 9).style("fill", "#fcbba1").attr("class", "NYCMapmyLegend")
+            svg.append("circle").attr("cx", 20).attr("cy", 80).attr("r", 9).style("fill", "#fc9272").attr("class", "NYCMapmyLegend")
+            svg.append("circle").attr("cx", 20).attr("cy", 110).attr("r", 9).style("fill", "#fb6a4a").attr("class", "NYCMapmyLegend")
+            svg.append("circle").attr("cx", 20).attr("cy", 140).attr("r", 9).style("fill", "#ef3b2c").attr("class", "NYCMapmyLegend")
+            svg.append("circle").attr("cx", 20).attr("cy", 170).attr("r", 9).style("fill", "#cb181d").attr("class", "NYCMapmyLegend")
+            svg.append("circle").attr("cx", 20).attr("cy", 200).attr("r", 9).style("fill", "#99000d").attr("class", "NYCMapmyLegend")
+            svg.append("circle").attr("cx", 20).attr("cy", 230).attr("r", 9).style("fill", "#000000").attr("class", "NYCMapmyLegend")
+            svg.append("text").attr("x", 50).attr("y", 20).text("Very Low Case Count").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCMapmyLegendText")
+            svg.append("text").attr("x", 50).attr("y", 200).text("Very High Case Count").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCMapmyLegendText")
+            svg.append("text").attr("x", 50).attr("y", 230).text("Undefined Region").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCMapmyLegendText")
+            //console.log(MaxCaseCount)
+            //console.log(MinCaseCount)
+
+            svg.append('g').selectAll('path')
+                .data(nycCombined)
+                .join('path')
+                .attr('d', geoGenerator)
+                .attr('fill', function (d) {
+                    return colorScale(d.properties.caseCount);
+                })
+                .attr('stroke', '#000')
+
+                .on("mousemove", function (d) {
+                    NYCMaptooltip.style("left", d3.event.pageX + 10 + "px")
+                        .style("top", d3.event.pageY + 10 + "px")
+                        .html(NYCMaptooltipcontent(d))
+                        .style("background-color", "#25221E")
+                        .style("color", "white")
+                        .style("display", "block")
+                })
+                .on("mouseout", function (d) {
+                    NYCMaptooltip.style("display", "none");
+                })
+
+            svg.append("g").selectAll("text")
+                .data(nycCombined)
+                .enter()
+                .append("text")
+                .attr("fill", "black")
+                .attr("transform", function (d) {
+                    return "translate(" + geoGenerator.centroid(d)[0] + ", " + geoGenerator.centroid(d)[1] + ")";
+                })
+                .attr("text-anchor", "middle")
+                .attr("dy", ".35em")
+                .text(function (d) {
+                    return d.properties.caseCount;
+                })
+                .attr('font-size', '6pt')
+                .attr('font-weight', "bold")
+                
+
+            function NYCMaptooltipcontent(d) {
+                detailShow = "";
+                detailShow += "Borough: " + d.properties["Borough"];
+                detailShow += "<br> Neighborhood Name: " + d.properties["NeighborhoodName"];
+                detailShow += "<br> Case Count: " + d.properties["caseCount"];
+                detailShow += "<br> Case Rate: " + d.properties["caseRate"];
+                detailShow += "<br> Death Count: " + d.properties["deathCount"];
+                detailShow += "<br> Death Rate: " + d.properties["deathRate"];
+                detailShow += "<br> Total Tests Performed: " + d.properties["totalCovidTests"];
+                detailShow += "<br> Positive Tests Percentage: " + d.properties["posTestsPerc"];
+                return detailShow
+            }
+        })
+
+        function joinData(mapData, tableData) {
+            for (var i = 0; i < tableData.length; i++) {
+                var csvRegion = tableData[i];
+                var csvKey = csvRegion.zcta;
+                //console.log(csvKey)
+                //console.log(mapData.length)
+                for (var a = 0; a < mapData.length; a++) {
+                    var geojsonProps = mapData[a].properties;
+                    var geojsonKey = parseInt(geojsonProps.MODZCTA);
+                    //console.log(geojsonKey)
+                    if (geojsonKey == csvKey) {
+                        Object.keys(csvRegion).forEach(function (attr) {
+                            var val = csvRegion[attr];
+                            geojsonProps[attr] = val;
+                        });
+                    };
+                };
+            };
+            return mapData;
+        };
+    </script>
+    <script>
+
+        function showPieChart(value) {
+            var nycStatsDiv = document.getElementById("nycStats");
+            if (nycStatsDiv !== null) {
+                nycStatsDiv.innerHTML = "";
+            }
+            let statLink = "";
+            var statData = null;
+            var displayText = "";
+            var titleText = "";
+            if (value === "nothing") {
+                return;
+            }
+            else if (value === "AgeGroup") {
+                statLink = "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/by-age.csv";
+                displayText = "ageGroup";
+                titleText = "Age Statistics"
+                statData = d3.csv(statLink, function (d) {
+                    return {
+                        ageGroup: d.AGE_GROUP,
+                        caseRate: +d.CASE_RATE,
+                        caseCount: +d.CASE_COUNT,
+                        deathRate: +d.DEATH_RATE,
+                        deathCount: +d.DEATH_COUNT,
+                        HospRate: +d.HOSPITALIZED_RATE,
+                        HospCount: +d.HOSPITALIZED_COUNT,
+                    };
+                })
+            }
+            else if (value === "Race") {
+                statLink = "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/by-race.csv";
+                displayText = "RaceGroup";
+                titleText = "Race Statistics"
+                statData = d3.csv(statLink, function (d) {
+                    return {
+                        RaceGroup: d.RACE_GROUP,
+                        caseRate: +d.CASE_RATE_ADJ,
+                        caseCount: +d.CASE_COUNT,
+                        deathRate: +d.DEATH_RATE_ADJ,
+                        deathCount: +d.DEATH_COUNT,
+                        HospRate: +d.HOSPITALIZED_RATE_ADJ,
+                        HospCount: +d.HOSPITALIZED_COUNT,
+                    };
+                })
+            }
+            else if (value === "PovertyLevel") {
+                statLink = "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/by-poverty.csv";
+                displayText = "PovertyGroup";
+                titleText = "Poverty Statistics"
+                statData = d3.csv(statLink, function (d) {
+                    return {
+                        PovertyGroup: d.POVERTY_GROUP,
+                        caseRate: +d.CASE_RATE_ADJ,
+                        caseCount: +d.CASE_COUNT,
+                        deathRate: +d.DEATH_RATE_ADJ,
+                        deathCount: +d.DEATH_COUNT,
+                        HospRate: +d.HOSPITALIZED_RATE_ADJ,
+                        HospCount: +d.HOSPITALIZED_COUNT,
+                    };
+                })
+            }
+
+            Promise.all([statData]).then(function (values) {
+                //console.log(values[0])
+                let objectData = values[0]
+                var statDataArray = [];
+                for (var i = 0; i < values[0].length; i++) {
+                    //console.log(objectData[i].caseCount)
+                    statDataArray.push(objectData[i].caseCount);
+                }
+                //console.log(statDataArray)
+                if (value === "AgeGroup") {
+                    objectData.pop();
+                    statDataArray.pop();
+                }
+                var NYCStattooltip = d3.select("body").append("div").attr("class", "toolTip");
+                let width = 700, height = 600;
+                let radius = Math.min(width, height) / 3;
+                let svg = d3.select("#nycStats").append('svg')
+                    .style("width", width).style("height", height);
+                var g = svg.append("g")
+                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+                var color;
+                var colorScale;
+                if (value === "AgeGroup") {
+                    color = ["#fee5d9", "#fcae91", "#fb6a4a", "#de2d26", "#a50f15"];
+                    colorScale = d3.scaleQuantize()
+                        .domain([Math.min(...statDataArray), Math.max(...statDataArray)])
+                        .range(color)
+                }
+                else if (value === "Race" || value === "PovertyLevel") {
+                    color = ["#fee5d9", "#fcae91", "#fb6a4a", "#cb181d"];
+                    colorScale = d3.scaleQuantize()
+                        .domain([Math.min(...statDataArray), Math.max(...statDataArray)])
+                        .range(color)
+                }
+                //console.log([Math.min(...statDataArray), Math.max(...statDataArray)])
+                if (value === "AgeGroup") {
+                    svg.append("circle").attr("cx", 20).attr("cy", 20).attr("r", 9).style("fill", "#fee5d9").attr("class", "NYCStatmyLegend")
+                    svg.append("circle").attr("cx", 20).attr("cy", 50).attr("r", 9).style("fill", "#fcae91").attr("class", "NYCStatmyLegend")
+                    svg.append("circle").attr("cx", 20).attr("cy", 80).attr("r", 9).style("fill", "#fb6a4a").attr("class", "NYCStatmyLegend")
+                    svg.append("circle").attr("cx", 20).attr("cy", 110).attr("r", 9).style("fill", "#de2d26").attr("class", "NYCStatmyLegend")
+                    svg.append("circle").attr("cx", 20).attr("cy", 140).attr("r", 9).style("fill", "#a50f15").attr("class", "NYCStatmyLegend")
+                    svg.append("text").attr("x", 50).attr("y", 20).text("Very Low Case Count").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCStatmyLegendText")
+                    svg.append("text").attr("x", 50).attr("y", 140).text("Very High Case Count").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCStatmyLegendText")
+                }
+                else {
+                    svg.append("circle").attr("cx", 20).attr("cy", 20).attr("r", 9).style("fill", "#fee5d9").attr("class", "NYCStatmyLegend")
+                    svg.append("circle").attr("cx", 20).attr("cy", 50).attr("r", 9).style("fill", "#fcae91").attr("class", "NYCStatmyLegend")
+                    svg.append("circle").attr("cx", 20).attr("cy", 80).attr("r", 9).style("fill", "#fb6a4a").attr("class", "NYCStatmyLegend")
+                    svg.append("circle").attr("cx", 20).attr("cy", 110).attr("r", 9).style("fill", "#cb181d").attr("class", "NYCStatmyLegend")
+                    svg.append("text").attr("x", 50).attr("y", 20).text("Very Low Case Count").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCStatmyLegendText")
+                    svg.append("text").attr("x", 50).attr("y", 110).text("Very High Case Count").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCStatmyLegendText")
+                }
+
+                var pie = d3.pie().value(function (d) {
+                    return d.caseCount;
+                });
+
+                var label = d3.arc()
+                    .outerRadius(radius + 30)
+                    .innerRadius(radius - 170);
+
+                var path = d3.arc()
+                    .outerRadius(radius - 10)
+                    .innerRadius(0);
+
+                var arc = g.selectAll(".arc")
+                    .data(pie(objectData))
+                    .enter().append("g")
+                    .attr("class", "arc")
+                    .on("mousemove", function (d) {
+                        NYCStattooltip.style("left", d3.event.pageX + 10 + "px")
+                            .style("top", d3.event.pageY + 10 + "px")
+                            .html(NYCStattooltipcontent(d))
+                            .style("background-color", "#25221E")
+                            .style("color", "white")
+                            .style("display", "block")
+                    })
+                    .on("mouseout", function (d) {
+                        NYCStattooltip.style("display", "none");
+                    });
+
+                arc.append("path")
+                    .attr("d", path)
+                    .attr("fill", function (d) {
+                        //console.log(colorScale(d.data.caseCount))
+                        return colorScale(d.data.caseCount);
+                    });
+
+                arc.append("text")
+                    .attr("text-anchor", "middle")
+                    .attr("transform", function (d) {
+                        var rotation = d.endAngle < Math.PI ? (d.startAngle / 2 + d.endAngle / 2) * 180 / Math.PI : (d.startAngle / 2 + d.endAngle / 2 + Math.PI) * 180 / Math.PI;
+                        return "translate(" + label.centroid(d) + ") rotate(-90) rotate(" + rotation + ")";
+                    })
+                    .text(function (d) {
+                        return d.data[displayText] + ": " + d.data.caseCount + " Cases";
+                    })
+                    .style("font-size", "12px")
+                    .style("font-weight", "bold");
+
+
+                svg.append("g")
+                    .attr("transform", "translate(" + (width / 2 - 60) + "," + 20 + ")")
+                    .append("text")
+                    .text(titleText)
+                    .attr("class", "title")
+                    .style("font-size", "20px")
+
+
+                function NYCStattooltipcontent(d) {
+                    //console.log(d)
+                    detailShow = "";
+                    detailShow += "Group: " + d.data[displayText];
+                    detailShow += "<br> Case Count: " + d.data.caseCount;
+                    detailShow += "<br> Case Rate: " + d.data.caseRate;
+                    detailShow += "<br> Death Count: " + d.data.deathCount;
+                    detailShow += "<br> Death Rate: " + d.data.deathRate;
+                    detailShow += "<br> Hospitalization Count: " + d.data.HospCount;
+                    detailShow += "<br> Hospitalization Rate: " + d.data.HospRate;
+                    return detailShow
+                }
+                
+            })
+        };
+       
+    </script>
 </body>
 </html>
