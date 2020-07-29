@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .toolTip {
+            position: absolute;
+            display: none;
+            min-width: 30px;
+            height: auto;
+            background: #edbb00;
+            
+            border: .5px solid #004d98;
+            padding: 4px;
+            text-align: center;
+            font: 12px sans-serif;
+        }
+
+        .rectFill {
+            fill: #000000;
+        }
+
+            .rectFill:hover {
+                fill: #1E90FF;
+            }
+        .textRed {
+            color: #ff0011;
+        }
+        .bordered {
+            width: auto;
+            height: auto;
+            padding: 20px;
+            border: 10px outset yellowgreen;
+        }
+        .btn-secondary:hover{
+            background-color:brown !important;
+        }
+        .centroid circle {
+            fill: red;
+        }
+        form {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+        .arc text {
+            font: 10px sans-serif;
+            text-anchor: middle;
+        }
+
+        .arc path {
+            stroke: #fff;
+        }
+
+        .title {
+            fill: teal;
+            font-weight: bold;
+        }
+    </style>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+</head>
+<body>
+    <header class="text-center py-5" style="background-color:#2f4357;">
+        <div class="container">
+            <h1 class="font-weight-light text-white">New York City</h1>
+            <h3 class="font-weight-light text-white">How the City Fought COVID-19 Pandemic and Won!!!</h3>
+        </div>
+    </header>
+    <div class="container-fluid">
+        <div class="row py-2 pl-5 pr-5">
+            <h5>Please select the statistics related to the spread of COVID-19 across New York City:</h5>
+        </div>
+        <div class="row py-2 pl-5 pr-5">
+            <h5>Please hover your mouse over each section of the pie graph to see more details:</h5>
+        </div>
+        <div class="row py-5 pl-5 pr-5 d-flex justify-content-center">
+            <select id="statOption" onchange="showPieChart(this.value)">
+                <option value="AgeGroup" selected> Age</option>
+                <option value="Race"> Race </option>
+                <option value="PovertyLevel"> Poverty Level </option>
+            </select>
+        </div>
+        <div class="row py-2 pl-2 pr-2">
+            <div class="col-md-6 py-2">
+                <div class="row py-2">
+                    <div class="col-md-12">
+                        <p style="font-weight:bold; font-size:large">
+                            Important Observations:
+                            <span id="statDev">
+
+                            </span>
+                        </p>
+                    </div>
+                </div>
+                <div class="row py-2">
+                    <div class="col-md-12">
+                        <img src="Images/NYC_shiny.jpg" class="img-fluid" alt="NYC logo">
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 py-5 d-flex justify-content-center" id="nycStats">
+
+            </div>
+        </div>
+        <hr />
+        <div class="row py-2 pl-5 pr-5">
+            <div class="col-md-12 py-5 d-flex justify-content-around">
+                <a href="index2.html" class="btn btn-primary btn-lg">Previous Slide</a>
+                <a href="index.html" class="btn btn-secondary btn-lg">Go to First Slide</a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script type="text/javascript" src="d3/d3.min.js"></script>
+    <script type="text/javascript" src="js/jquery-3.2.1.slim.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/popper.min.js"></script>
+
+    <script>
+
+        function showPieChart(value) {
+            var nycStatsDiv = document.getElementById("nycStats");
+            if (nycStatsDiv !== null) {
+                nycStatsDiv.innerHTML = "";
+            }
+            let statLink = "";
+            var statData = null;
+            var displayText = "";
+            var titleText = "";
+            var statDevText = "";
+            
+            if (value === "AgeGroup") {
+                statLink = "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/by-age.csv";
+                displayText = "ageGroup";
+                titleText = "Age Statistics"
+                statData = d3.csv(statLink, function (d) {
+                    return {
+                        ageGroup: d.AGE_GROUP,
+                        caseRate: +d.CASE_RATE,
+                        caseCount: +d.CASE_COUNT,
+                        deathRate: +d.DEATH_RATE,
+                        deathCount: +d.DEATH_COUNT,
+                        HospRate: +d.HOSPITALIZED_RATE,
+                        HospCount: +d.HOSPITALIZED_COUNT,
+                    };
+                })
+                statDevText = "<ul><li>Age Group '0-17 years' has the smallest number of COVID-19 cases.</li><li>The most affected Age Groups are those of '18-44 years' and '45-64 years' with total number of COVID-19 cases that is larger than the other three age groups combined.</li><li>Age Groups '65-74 years' and '75+ years' are specially vulnerable to COVID-19, and according to the chart, they constituted a large portion of total COVID-19 cases in NYC.</li></ul>"
+            }
+            else if (value === "Race") {
+                statLink = "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/by-race.csv";
+                displayText = "RaceGroup";
+                titleText = "Race Statistics"
+                statData = d3.csv(statLink, function (d) {
+                    return {
+                        RaceGroup: d.RACE_GROUP,
+                        caseRate: +d.CASE_RATE_ADJ,
+                        caseCount: +d.CASE_COUNT,
+                        deathRate: +d.DEATH_RATE_ADJ,
+                        deathCount: +d.DEATH_COUNT,
+                        HospRate: +d.HOSPITALIZED_RATE_ADJ,
+                        HospCount: +d.HOSPITALIZED_COUNT,
+                    };
+                })
+                statDevText = "<ul><li>Hispanic/Latino Race suffered the largest number of COVID-19 cases.</li><li>Black/African-American Race is the second highest in terms of COVID-19 cases. The three Races of White, Hispanic/Latino, and Black/African-American constitute the vast majority of COVID-19 cases in NYC.</li><li>Asian/Pacific-Islander Race has the smallest number of COVID-19 cases.</li></ul>"
+            }
+            else if (value === "PovertyLevel") {
+                statLink = "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/by-poverty.csv";
+                displayText = "PovertyGroup";
+                titleText = "Poverty Statistics"
+                statData = d3.csv(statLink, function (d) {
+                    return {
+                        PovertyGroup: d.POVERTY_GROUP,
+                        caseRate: +d.CASE_RATE_ADJ,
+                        caseCount: +d.CASE_COUNT,
+                        deathRate: +d.DEATH_RATE_ADJ,
+                        deathCount: +d.DEATH_COUNT,
+                        HospRate: +d.HOSPITALIZED_RATE_ADJ,
+                        HospCount: +d.HOSPITALIZED_COUNT,
+                    };
+                })
+                statDevText = "<ul><li>Medium Poverty group has the largest number of COVID-19 cases in NYC.</li><li>The three groups: Medium Poverty, High Poverty, Very High Poverty constitue the vast majority of COVID-19 cases in NYC.</li><li>Low Poverty Group has the lowest number of COVID-19 Cases.</li></ul>"
+            }
+
+            Promise.all([statData]).then(function (values) {
+                //console.log(values[0])
+                let objectData = values[0]
+                var statDataArray = [];
+                for (var i = 0; i < values[0].length; i++) {
+                    //console.log(objectData[i].caseCount)
+                    statDataArray.push(objectData[i].caseCount);
+                }
+                //console.log(statDataArray)
+                if (value === "AgeGroup") {
+                    objectData.pop();
+                    statDataArray.pop();
+                }
+                var NYCStattooltip = d3.select("body").append("div").attr("class", "toolTip");
+                let width = 700, height = 600;
+                let radius = Math.min(width, height) / 3;
+                let svg = d3.select("#nycStats").append('svg')
+                    .style("width", width).style("height", height);
+                var g = svg.append("g")
+                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+                var color;
+                var colorScale;
+                if (value === "AgeGroup") {
+                    color = ["#fee5d9", "#fcae91", "#fb6a4a", "#de2d26", "#a50f15"];
+                    colorScale = d3.scaleQuantize()
+                        .domain([Math.min(...statDataArray), Math.max(...statDataArray)])
+                        .range(color)
+                }
+                else if (value === "Race" || value === "PovertyLevel") {
+                    color = ["#fee5d9", "#fcae91", "#fb6a4a", "#cb181d"];
+                    colorScale = d3.scaleQuantize()
+                        .domain([Math.min(...statDataArray), Math.max(...statDataArray)])
+                        .range(color)
+                }
+                //console.log([Math.min(...statDataArray), Math.max(...statDataArray)])
+                if (value === "AgeGroup") {
+                    svg.append("circle").attr("cx", 20).attr("cy", 20).attr("r", 9).style("fill", "#fee5d9").attr("class", "NYCStatmyLegend")
+                    svg.append("circle").attr("cx", 20).attr("cy", 50).attr("r", 9).style("fill", "#fcae91").attr("class", "NYCStatmyLegend")
+                    svg.append("circle").attr("cx", 20).attr("cy", 80).attr("r", 9).style("fill", "#fb6a4a").attr("class", "NYCStatmyLegend")
+                    svg.append("circle").attr("cx", 20).attr("cy", 110).attr("r", 9).style("fill", "#de2d26").attr("class", "NYCStatmyLegend")
+                    svg.append("circle").attr("cx", 20).attr("cy", 140).attr("r", 9).style("fill", "#a50f15").attr("class", "NYCStatmyLegend")
+                    svg.append("text").attr("x", 50).attr("y", 20).text("Very Low Case Count").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCStatmyLegendText")
+                    svg.append("text").attr("x", 50).attr("y", 140).text("Very High Case Count").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCStatmyLegendText")
+                }
+                else {
+                    svg.append("circle").attr("cx", 20).attr("cy", 20).attr("r", 9).style("fill", "#fee5d9").attr("class", "NYCStatmyLegend")
+                    svg.append("circle").attr("cx", 20).attr("cy", 50).attr("r", 9).style("fill", "#fcae91").attr("class", "NYCStatmyLegend")
+                    svg.append("circle").attr("cx", 20).attr("cy", 80).attr("r", 9).style("fill", "#fb6a4a").attr("class", "NYCStatmyLegend")
+                    svg.append("circle").attr("cx", 20).attr("cy", 110).attr("r", 9).style("fill", "#cb181d").attr("class", "NYCStatmyLegend")
+                    svg.append("text").attr("x", 50).attr("y", 20).text("Very Low Case Count").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCStatmyLegendText")
+                    svg.append("text").attr("x", 50).attr("y", 110).text("Very High Case Count").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCStatmyLegendText")
+                }
+
+                document.getElementById("statDev").innerHTML = statDevText;
+
+                var pie = d3.pie().value(function (d) {
+                    return d.caseCount;
+                });
+
+                var label = d3.arc()
+                    .outerRadius(radius + 30)
+                    .innerRadius(radius - 170);
+
+                var path = d3.arc()
+                    .outerRadius(radius - 10)
+                    .innerRadius(0);
+
+                var arc = g.selectAll(".arc")
+                    .data(pie(objectData))
+                    .enter().append("g")
+                    .attr("class", "arc")
+                    .on("mousemove", function (d) {
+                        NYCStattooltip.style("left", d3.event.pageX + 10 + "px")
+                            .style("top", d3.event.pageY + 10 + "px")
+                            .html(NYCStattooltipcontent(d))
+                            .style("background-color", "#25221E")
+                            .style("color", "white")
+                            .style("display", "block")
+                    })
+                    .on("mouseout", function (d) {
+                        NYCStattooltip.style("display", "none");
+                    });
+
+                arc.append("path")
+                    .attr("d", path)
+                    .attr("fill", function (d) {
+                        //console.log(colorScale(d.data.caseCount))
+                        return colorScale(d.data.caseCount);
+                    });
+
+                arc.append("text")
+                    .attr("text-anchor", "middle")
+                    .attr("transform", function (d) {
+                        var rotation = d.endAngle < Math.PI ? (d.startAngle / 2 + d.endAngle / 2) * 180 / Math.PI : (d.startAngle / 2 + d.endAngle / 2 + Math.PI) * 180 / Math.PI;
+                        return "translate(" + label.centroid(d) + ") rotate(-90) rotate(" + rotation + ")";
+                    })
+                    .text(function (d) {
+                        return d.data[displayText] + ": " + d.data.caseCount + " Cases";
+                    })
+                    .style("font-size", "12px")
+                    .style("font-weight", "bold");
+
+
+                svg.append("g")
+                    .attr("transform", "translate(" + (width / 2 - 60) + "," + 20 + ")")
+                    .append("text")
+                    .text(titleText)
+                    .attr("class", "title")
+                    .style("font-size", "20px")
+
+
+                function NYCStattooltipcontent(d) {
+                    //console.log(d)
+                    detailShow = "";
+                    detailShow += "Group: " + d.data[displayText];
+                    detailShow += "<br> Case Count: " + d.data.caseCount;
+                    detailShow += "<br> Case Rate: " + d.data.caseRate;
+                    detailShow += "<br> Death Count: " + d.data.deathCount;
+                    detailShow += "<br> Death Rate: " + d.data.deathRate;
+                    detailShow += "<br> Hospitalization Count: " + d.data.HospCount;
+                    detailShow += "<br> Hospitalization Rate: " + d.data.HospRate;
+                    return detailShow
+                }
+                
+            })
+        };
+        $(document).ready(function () {
+            showPieChart("AgeGroup");
+        })
+    </script>
+</body>
+</html>

@@ -91,54 +91,23 @@
         </div>
         <hr />
         <div class="row py-2 pl-5 pr-5">
-            <h5>Please click below to see the spread of COVID-19 throughout the months of March, April, May, June of 2020 across the city:</h5>
-            <div class="col-md-12 d-flex justify-content-around">
-                <button class="btn btn-secondary btn-lg" value=3 onclick="showChart(this)">March 2020</button>
-                <button class="btn btn-secondary btn-lg" value=34 onclick="showChart(this)">April 2020</button>
-                <button class="btn btn-secondary btn-lg" value=35 onclick="showChart(this)">May 2020</button>
-                <button class="btn btn-secondary btn-lg" value=36 onclick="showChart(this)">June 2020</button>
-            </div>
+            <h5>Below is a map outlining NYC neighbourhoods and their respective COVID-19 Statistics.</h5>
         </div>
-        <hr />
-        <div class="row py-1 pl-5 pr-5">
-            <div class="col-md-12">
-                <svg width="1390" height="500" id="NYCCOVIDBar">
-                    <g></g>
-                    <text id="month" x=51.95% y=13% font-family="sans-serif" font-size="20px" fill=black text-anchor="middle" alignment-baseline="central"></text>
-                </svg>
-            </div>
+        <div class="row py-2 pl-5 pr-5">
+            <h5>Observations: The two boroughs of Brooklyn and Queens have cumulatively the largest total number of confirmed COVID-19 cases exceeding the total number of cases for the other three boroughs (Manhattan, The Bronx, Staten Island) combined.</h5>
         </div>
-        <div class="row py-1 pl-5 pr-5" id="monthStory">
-            <div class="col-md-4">
-                <img id="monthImg" src="" class="img-fluid rounded">
-            </div>
-            <div class="col-md-8">
-                <p><span id="monthDev" class="bordered"></span></p>
-            </div>
+        <div class="row py-2 pl-5 pr-5">
+            <h5>Note: Please hover your mouse over a neighbourhood to see related details</h5>
         </div>
-        <hr />
         <div class="row py-5 pl-5 pr-5">
-            <h5>Below is a map outlining NYC neighbourhoods and their respective COVID-19 Statistics:</h5>
-            <div style="margin-left:auto">
-                <h5>Note : Hover your mouse over a neighbourhood to see related details</h5>
-            </div>
             <div class="col-md-12 py-5 d-flex justify-content-around" id="nycMap">
 
             </div>
         </div>
         <hr />
-        <div class="row py-5 pl-5 pr-5">
-            <h5>Please select the statistics related to the spread of COVID-19 across New York City:</h5>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <select id="statOption" onchange="showPieChart(this.value)">
-                <option value="nothing" selected>Select...</option>
-                <option value="AgeGroup"> Age</option>
-                <option value="Race"> Race </option>
-                <option value="PovertyLevel"> Poverty Level </option>
-            </select>
-            
-            <div class="col-md-12 py-5 d-flex justify-content-around" id="nycStats">
-                
+        <div class="row py-2 pl-5 pr-5">
+            <div class="col-md-12 py-5 d-flex justify-content-around">
+                <a href="index2.html" class="btn btn-primary btn-lg">Next Slide</a>
             </div>
         </div>
     </div>
@@ -150,218 +119,6 @@
     <script type="text/javascript" src="js/jquery-3.2.1.slim.min.js"></script>
     <script type="text/javascript" src="js/bootstrap.min.js"></script>
     <script type="text/javascript" src="js/popper.min.js"></script>
-
-
-    <script>
-
-        document.getElementById("NYCCOVIDBar").style.display = "none";
-        document.getElementById("monthDev").style.display = "none";
-
-        function showChart(monthVal) {
-
-            document.getElementById("NYCCOVIDBar").style.display = "block";
-            document.getElementById("monthDev").style.display = "block";
-            document.getElementById("monthImg").style.display = "block";
-            document.getElementById("nycMap").style.display = "block";
-            document.getElementById("nycStats").style.display = "block";
-
-            $(".myLegend").remove();
-            $(".myLegendText").remove();
-
-
-            var elmnt = document.getElementById("NYCCOVIDBar");
-            elmnt.scrollIntoView();
-
-            if (monthVal.value == 3) {
-                monthText = "<h5>On March 3, New York Governor Andrew Cuomo announced that the first recorded case of person-to-person spread in New York State had been confirmed via a New Rochelle man who was working at a law firm within One Grand Central Place in Midtown Manhattan. Six days later, on March 9, Mayor Bill de Blasio announced that there were 16 confirmed cases of COVID-19 in New York City. The virus then grew exponentially: by March 25, over 17,800 cases had been confirmed in New York City, with 199 deaths. At the time, the city's infection rate was five times higher than the rest of the country, and its cases and were one-third of total confirmed US cases. The reasons for the high infection rate continue to be discussed. On March 27, infection in New York City surpassed 23,000, with 365 deaths. Queens was the worst-affected borough by number of deaths, with over a third of total deaths; the majority of the deceased had underlying health issues. Between March 28 and 29, the number of deaths in New York City tripled from the previous 24-hour period; 222 people died of the virus bringing the city's fatalities to 672, with 30,765 confirmed cases. The USNS Comfort hospital ship arrived in New York Harbor on March 30. Field hospitals were also set up in several places citywide. Refrigerator trucks were set up on city streets outside hospitals to accommodate the overflow of bodies of the deceased. On March 31, the first death of a child from COVID-19 in New York City was recorded.</h5>";
-                monthShow = "March";
-                imgSrc = "Images/NYCMarch.jpg";
-            }
-            else if (monthVal.value == 34) {
-                monthText = "<h5>On April 4, Governor Cuomo announced that the Chinese government had arranged for a donation of 1,000 ventilators to be sent to New York through foundations run by Jack Maand Joseph Tsai. The state of Oregon was reported to be sending 140 ventilators. Trump announced that 1,000 additional federal medical soldiers would be deployed to New York City. It was reported that 'Urban Area Medical Task Forces' made up of army reservists would be working in the New York City field hospitals and other parts of the country. As of April 4, there were 1,200 medical military personnel serving on the USNS Comfort. 2,700 New York State National Guardforces had also been deployed. On April 5, it was reported that a tiger at the Bronx Zoo had contracted COVID-19, the first known case of a tiger anywhere being infected with the disease. Several other 'big cats' were found to have COVID-19, the first of which had started showing symptoms on March 27; they were believed to have contracted COVID-19 from an infected zookeeper who was not yet showing symptoms. This was also the first known case of an animal contracting the disease from human contact in the US. On April 22 it was reported that four additional tigers plus three lions had tested positive. On April 6 there were 72,181 confirmed cases, with at least 2,475 deaths. NYC accounted for 25% of COVID-19 deaths in the United States. The next day Gothamist reported that the death toll in New York City was undercounted. It was estimated that 1,125 people had died at home or on the street"
-                    + "in NYC in the first five days of April, an eight-fold increase compared with FDNY figures for 2019. Due to the large increase, many of the deaths were presumed to be caused by COVID-19, but only residents with confirmed infections had been recorded in the official count. Due to the crisis circumstances of the pandemic, the real death toll was unknown. Bodies of those who had died at home, around 280 per day, were being picked up by the US Army, National Guard, and Air National Guard. As of April 8, at least 80 % of New York City virus patients put on ventilators had died. Some of the communities most affected by the pandemic included densely-populated neighborhoods in north-central Queens with high immigrant populations, including Corona, East Elmhurst, Elmhurst, and Jackson Heights. As of April 8, these communities, with a cumulative 600,000 residents, had recorded 7,260 COVID-19 cases. On April 23, state officials said that based on preliminary antibody testing results, they estimated around 21.2% of city residents had contracted COVID-19.</h5>";
-                monthShow = "March - April";
-                imgSrc = "Images/NYCApril.jpg";
-            }
-            else if (monthVal.value == 35) {
-                monthText = "<h5>On May 10, de Blasio said 38 children were known to be affected by an inflammatory syndrome believed to be linked to an immune response to COVID-19. Known as pediatric multisystem inflammatory syndrome, the condition resembles Kawasaki disease. Symptoms include high fevers that can last for days, rash, racing heart beat, changes in skin color, redness of the tongue, and severe abdominal pain. At least one child has died in New York City, and two additional deaths have been reported statewide. The link with COVID-19 has not yet been proven, but at least 85 cases are being investigated statewide. On May 19, Cuomo confirmed 137 cases of the illness, stating it was 'the tip of the iceberg' with 90% of the cases testing positive for the virus or antibodies. A survey conducted May 5-12 and reported in the Centers for Disease Control and Prevention's Morbidity and Mortality Weekly Report found that 42% of 286 respondents residing in the New York City metropolitan area knew someone who had tested positive for COVID-19, and 23.1% knew someone who had died. These figures were considerably higher than those reported by respondents from Los Angeles(10.8% and 7.3%, respectively) and from across the United States (16.8% and 5.9%, respectively). During May, COVID-19 cases started to decline. After the George Floyd protests in New York City started in late May, public officials expressed concern about the spread of COVID-19 via the crowded events. The gatherings had led to fears about another wave of illness but no COVID-19 spikes have been recorded to date.</h5>";
-                monthShow = "March - May";
-                imgSrc = "Images/NYCMay.jpg";
-            }
-            else if (monthVal.value == 36) {
-                monthText = "<h5>On June 8, the city partially reopened after meeting seven conditions of the PAUSE order, which had been put in place three months earlier. The 'Phase 1' reopening was limited to employees of construction jobs, agricultural workers, and those in the wholesale, manufacturing and retail sectors would return to work. In total, between 200,000 to 400,000 people were expected to return to work during Phase 1. Safety protocols were put in place to limit occupancy of confined spaces like elevators to one person at a time, and occupancy ceilings were reduced to under 50% of their usual capacity.</h5>";
-                monthShow = "March - June";
-                imgSrc = "Images/NYCJune.jpg";
-            }
-
-            document.getElementById("monthDev").innerHTML = monthText;
-            document.getElementById("month").innerHTML = monthShow;
-            var svg = d3.select("svg");
-            var margin = { top: 20, right: 20, bottom: 80, left: 100 };
-            var width = +svg.attr("width") - margin.left - margin.right;
-            var height = +svg.attr("height") - margin.top - margin.bottom;
-            var parseTime = d3.timeParse("%m/%d/%Y");
-            var x = d3.scaleTime().range([width / 122 / 2, width - width / 122 / 2]);
-            var y = d3.scaleLinear().domain([0, 7500]).range([height, 0]);
-
-            svg.append("circle").attr("cx", 1120).attr("cy", 20).attr("r", 6).style("fill", "#EE7600").attr("class", "myLegend")
-            svg.append("circle").attr("cx", 1120).attr("cy", 50).attr("r", 6).style("fill", "#FADA5E").attr("class", "myLegend")
-            svg.append("circle").attr("cx", 1120).attr("cy", 80).attr("r", 6).style("fill", "#FF0000").attr("class", "myLegend")
-            svg.append("text").attr("x", 1150).attr("y", 20).text("Highest Daily Death Count Per Month").style("font-size", "14px").attr("alignment-baseline", "middle").attr("class", "myLegendText")
-            svg.append("text").attr("x", 1150).attr("y", 50).text("Highest Daily Case Count Per Month").style("font-size", "14px").attr("alignment-baseline", "middle").attr("class", "myLegendText")
-            svg.append("text").attr("x", 1150).attr("y", 80).text("Both").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "myLegendText")
-
-            NYC_data = "https://gist.githubusercontent.com/samuely4/e21d3b20847018b0f73f5652dc213735/raw/43858e255c482f67c9b6819c5eb5d14e70963ed6/NYCData.csv"
-            d3.csv(NYC_data, function (d) {
-                return {
-                    Date_of_Interest: d.Date,
-                    caseCount: +d.Case_Count,
-                    deathCount: +d.Death_Count,
-                    HospCount: +d.Hospitalized_Count,
-                    percPositive: +d.Percent_Positive,
-                    posTests: +d.Positive_Tests,
-                    totTests: +d.Total_Tests,
-                    worstDayofMonthDeath: +d.Worst_Day_of_Month_Death,
-                    worstDayofMonthcaseCount: +d.Worst_Day_of_Month_caseCount
-                };
-            }).then(function (data, indx) {
-                data.forEach(function (d) {
-                    d.Date_of_Interest = parseTime(d.Date_of_Interest);
-                });
-                //console.log(data)
-                x.domain(d3.extent(data, function (d) { return d.Date_of_Interest; }))
-                var g = svg.select("g")
-                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-                var tooltip = d3.select("body").append("div").attr("class", "toolTip");
-                const axis = d3.axisBottom(x).ticks(data.length / 2).tickFormat(d3.timeFormat("%b %d"));
-
-
-                document.getElementById("monthImg").setAttribute("src", imgSrc)
-
-                g.append("g")
-                    .attr("transform", "translate(0," + height + ")")
-                    .call(axis)
-                    .selectAll("text")
-                    .style("text-anchor", "end")
-                    .attr("dx", "-.8em")
-                    .attr("dy", ".15em")
-                    .attr("transform", "rotate(-65)");
-
-                // text label for the x axis
-                svg.append("text")
-                    .attr("transform",
-                        "translate(" + (width / 2) + " ," +
-                        (height + margin.top + 60) + ")")
-                    .style("text-anchor", "middle")
-                    .text("Date");
-
-                g.append("g")
-                    .call(d3.axisLeft(y).ticks(13));
-
-                // text label for the y axis
-                svg.append("text")
-                    .attr("transform", "rotate(-90)")
-                    .attr("y", 30)
-                    .attr("x", 0 - (height / 2))
-                    .attr("dy", "1em")
-                    .style("text-anchor", "middle")
-                    .text("Case Count");
-
-                var Recs = 0
-                if (monthVal.value == 3) {
-                    Recs = 31;
-                }
-                else if (monthVal.value == 34) {
-                    Recs = 61;
-                }
-                else if (monthVal.value == 35) {
-                    Recs = 92;
-                }
-                else if (monthVal.value == 36) {
-                    Recs = 122;
-                }
-
-                //console.log(Recs)
-
-                var bars = g.selectAll("rect")
-                    .data(data.slice(0, Recs))
-                    .enter().append('g');
-
-                    bars.append("rect")
-                    .attr("class", "rectFill")
-                    .on("mousemove", function (d) {
-                        tooltip.style("left", d3.event.pageX + 10 + "px")
-                            .style("top", d3.event.pageY + 10 + "px")
-                            .html(tooltipcontent(d))
-                            .style("background-color", "#25221E")
-                            .style("color", "white")
-                            .style("display", "block")
-                    })
-                    .on("mouseout", function (d) {
-                        tooltip.style("display", "none");
-                    })
-                    .attr("x", function (d) { return x(d.Date_of_Interest) - (width / data.length) / 2; })
-                    .attr("y", function (d) { return y(0); })
-                    .transition().duration(1000)
-                    .attr("y", function (d) { return y(d.caseCount); })
-                    .style("fill", function (d) {
-                        if (d.worstDayofMonthDeath && d.worstDayofMonthcaseCount > 0) { return "#FF0000" }
-                        else if (d.worstDayofMonthDeath > 0 && d.worstDayofMonthcaseCount == 0) { return "#EE7600" }
-                        else if (d.worstDayofMonthDeath == 0 && d.worstDayofMonthcaseCount > 0) { return "#FADA5E" }
-                    })
-                    .attr("height", function (d) { return height - y(d.caseCount); })
-                    .attr("width", width / (data.length + 18))
-
-                bars.append("text")
-                    .attr("class", "barLabel")
-                    .attr("x", function (d) { return x(d.Date_of_Interest) - (width / data.length) / 2; })
-                    .attr("y", function (d) { return (y(d.caseCount) - 30 ); })
-                    .text(function (d) {
-                        return d.caseCount;
-                    })
-                    .style("text-anchor", "start")
-                    .style("font-size", "13px")
-                    .attr("transform", function (d) {
-                        return "rotate(90 " + (x(d.Date_of_Interest) - (width / data.length) / 2) + ', ' + (y(d.caseCount) - 30) + ")"
-                    })
-                
-                    
-
-                g.selectAll("rect")
-                    .data(data.slice(0, Recs))
-                    .exit()
-                    .transition().duration(1000).attr("y", function (d) { return y(0); }).attr("height", function (d) { return 0; })
-                    .remove()
-
-                g.selectAll(".barLabel")
-                    .data(data.slice(0, Recs))
-                    .exit()
-                    .transition().duration(1000).attr("y", function (d) { return y(0); }).attr("height", function (d) { return 0; })
-                    .remove()
-            });
-
-        }
-
-        function tooltipcontent(d) {
-            const monthsFull = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]
-            const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
-            let monthWarn = monthsFull[d.Date_of_Interest.getMonth()];
-            let newDate = months[d.Date_of_Interest.getMonth()] + " " + d.Date_of_Interest.getDate();
-            var dayShow = "";
-            dayShow += newDate;
-            if (d.worstDayofMonthcaseCount > 0) { dayShow += "<br> <b class='textRed'>HIGHEST DAILY CASE COUNT FOR THE MONTH OF " + monthWarn + "</b>" }
-            if (d.worstDayofMonthDeath > 0) { dayShow += "<br> <b class='textRed'>HIGHEST DAILY DEATH COUNT FOR THE MONTH OF " + monthWarn + "</b>" }
-            if (d.caseCount > 0) { dayShow += "<br> Case Count: " + d.caseCount; }
-            if (d.deathCount > 0) { dayShow += "<br> Death Count: " + d.deathCount; }
-            if (d.HospCount > 0) { dayShow += "<br> Hospitalized Count: " + d.HospCount; }
-            if (d.totTests > 0) { dayShow += "<br> Total Tests Performed: " + d.totTests; }
-            if (d.posTests > 0) { dayShow += "<br> Total Positive Tests: " + d.posTests; }
-            if (d.percPositive > 0) { dayShow += "<br> Percentage Positive: " + d.percPositive; }
-            return dayShow
-        }
-
-    </script>
 
     <script>
         var nycMap = d3.json('https://raw.githubusercontent.com/samuely4/samuely4.github.io/master/data/MODZCTA_2010_WGS1984.geo.json')
@@ -393,7 +150,7 @@
                 .style("width", width).style("height", height);
 
             nycCombined = joinData(values[0].features, values[1]);
-           
+
             var filterRes = nycCombined.filter(function (o1) {
                 return o1.properties.MODZCTA != "99999";
             })
@@ -423,7 +180,9 @@
             svg.append("text").attr("x", 50).attr("y", 230).text("Undefined Region").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCMapmyLegendText")
             //console.log(MaxCaseCount)
             //console.log(MinCaseCount)
-
+            svg.append("rect").attr("x", 670).attr("y", -450).attr("width", 380).attr("height", 600).style("fill", "#FFFFFF").attr("stroke", "red").attr("stroke-dasharray", 5).attr("transform", "rotate(45)").attr("class", "NYCMapAlert")
+            svg.append("text").attr("x", -80).attr("y", 1040).text("Brooklyn and Queens: Largest total COVID cases among the five boroughs").attr("style", "font-size:12px; font-weight:bold;").attr("alignment-baseline", "middle").attr("transform", "rotate(-45)").attr("fill", "#0000FF").attr("class", "NYCMapmyLegendText")
+            
             svg.append('g').selectAll('path')
                 .data(nycCombined)
                 .join('path')
@@ -432,7 +191,6 @@
                     return colorScale(d.properties.caseCount);
                 })
                 .attr('stroke', '#000')
-
                 .on("mousemove", function (d) {
                     NYCMaptooltip.style("left", d3.event.pageX + 10 + "px")
                         .style("top", d3.event.pageY + 10 + "px")
@@ -460,7 +218,7 @@
                 })
                 .attr('font-size', '6pt')
                 .attr('font-weight', "bold")
-                
+
 
             function NYCMaptooltipcontent(d) {
                 detailShow = "";
@@ -497,194 +255,7 @@
             return mapData;
         };
     </script>
-    <script>
 
-        function showPieChart(value) {
-            var nycStatsDiv = document.getElementById("nycStats");
-            if (nycStatsDiv !== null) {
-                nycStatsDiv.innerHTML = "";
-            }
-            let statLink = "";
-            var statData = null;
-            var displayText = "";
-            var titleText = "";
-            if (value === "nothing") {
-                return;
-            }
-            else if (value === "AgeGroup") {
-                statLink = "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/by-age.csv";
-                displayText = "ageGroup";
-                titleText = "Age Statistics"
-                statData = d3.csv(statLink, function (d) {
-                    return {
-                        ageGroup: d.AGE_GROUP,
-                        caseRate: +d.CASE_RATE,
-                        caseCount: +d.CASE_COUNT,
-                        deathRate: +d.DEATH_RATE,
-                        deathCount: +d.DEATH_COUNT,
-                        HospRate: +d.HOSPITALIZED_RATE,
-                        HospCount: +d.HOSPITALIZED_COUNT,
-                    };
-                })
-            }
-            else if (value === "Race") {
-                statLink = "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/by-race.csv";
-                displayText = "RaceGroup";
-                titleText = "Race Statistics"
-                statData = d3.csv(statLink, function (d) {
-                    return {
-                        RaceGroup: d.RACE_GROUP,
-                        caseRate: +d.CASE_RATE_ADJ,
-                        caseCount: +d.CASE_COUNT,
-                        deathRate: +d.DEATH_RATE_ADJ,
-                        deathCount: +d.DEATH_COUNT,
-                        HospRate: +d.HOSPITALIZED_RATE_ADJ,
-                        HospCount: +d.HOSPITALIZED_COUNT,
-                    };
-                })
-            }
-            else if (value === "PovertyLevel") {
-                statLink = "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/by-poverty.csv";
-                displayText = "PovertyGroup";
-                titleText = "Poverty Statistics"
-                statData = d3.csv(statLink, function (d) {
-                    return {
-                        PovertyGroup: d.POVERTY_GROUP,
-                        caseRate: +d.CASE_RATE_ADJ,
-                        caseCount: +d.CASE_COUNT,
-                        deathRate: +d.DEATH_RATE_ADJ,
-                        deathCount: +d.DEATH_COUNT,
-                        HospRate: +d.HOSPITALIZED_RATE_ADJ,
-                        HospCount: +d.HOSPITALIZED_COUNT,
-                    };
-                })
-            }
-
-            Promise.all([statData]).then(function (values) {
-                //console.log(values[0])
-                let objectData = values[0]
-                var statDataArray = [];
-                for (var i = 0; i < values[0].length; i++) {
-                    //console.log(objectData[i].caseCount)
-                    statDataArray.push(objectData[i].caseCount);
-                }
-                //console.log(statDataArray)
-                if (value === "AgeGroup") {
-                    objectData.pop();
-                    statDataArray.pop();
-                }
-                var NYCStattooltip = d3.select("body").append("div").attr("class", "toolTip");
-                let width = 700, height = 600;
-                let radius = Math.min(width, height) / 3;
-                let svg = d3.select("#nycStats").append('svg')
-                    .style("width", width).style("height", height);
-                var g = svg.append("g")
-                    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
-                var color;
-                var colorScale;
-                if (value === "AgeGroup") {
-                    color = ["#fee5d9", "#fcae91", "#fb6a4a", "#de2d26", "#a50f15"];
-                    colorScale = d3.scaleQuantize()
-                        .domain([Math.min(...statDataArray), Math.max(...statDataArray)])
-                        .range(color)
-                }
-                else if (value === "Race" || value === "PovertyLevel") {
-                    color = ["#fee5d9", "#fcae91", "#fb6a4a", "#cb181d"];
-                    colorScale = d3.scaleQuantize()
-                        .domain([Math.min(...statDataArray), Math.max(...statDataArray)])
-                        .range(color)
-                }
-                //console.log([Math.min(...statDataArray), Math.max(...statDataArray)])
-                if (value === "AgeGroup") {
-                    svg.append("circle").attr("cx", 20).attr("cy", 20).attr("r", 9).style("fill", "#fee5d9").attr("class", "NYCStatmyLegend")
-                    svg.append("circle").attr("cx", 20).attr("cy", 50).attr("r", 9).style("fill", "#fcae91").attr("class", "NYCStatmyLegend")
-                    svg.append("circle").attr("cx", 20).attr("cy", 80).attr("r", 9).style("fill", "#fb6a4a").attr("class", "NYCStatmyLegend")
-                    svg.append("circle").attr("cx", 20).attr("cy", 110).attr("r", 9).style("fill", "#de2d26").attr("class", "NYCStatmyLegend")
-                    svg.append("circle").attr("cx", 20).attr("cy", 140).attr("r", 9).style("fill", "#a50f15").attr("class", "NYCStatmyLegend")
-                    svg.append("text").attr("x", 50).attr("y", 20).text("Very Low Case Count").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCStatmyLegendText")
-                    svg.append("text").attr("x", 50).attr("y", 140).text("Very High Case Count").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCStatmyLegendText")
-                }
-                else {
-                    svg.append("circle").attr("cx", 20).attr("cy", 20).attr("r", 9).style("fill", "#fee5d9").attr("class", "NYCStatmyLegend")
-                    svg.append("circle").attr("cx", 20).attr("cy", 50).attr("r", 9).style("fill", "#fcae91").attr("class", "NYCStatmyLegend")
-                    svg.append("circle").attr("cx", 20).attr("cy", 80).attr("r", 9).style("fill", "#fb6a4a").attr("class", "NYCStatmyLegend")
-                    svg.append("circle").attr("cx", 20).attr("cy", 110).attr("r", 9).style("fill", "#cb181d").attr("class", "NYCStatmyLegend")
-                    svg.append("text").attr("x", 50).attr("y", 20).text("Very Low Case Count").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCStatmyLegendText")
-                    svg.append("text").attr("x", 50).attr("y", 110).text("Very High Case Count").style("font-size", "15px").attr("alignment-baseline", "middle").attr("class", "NYCStatmyLegendText")
-                }
-
-                var pie = d3.pie().value(function (d) {
-                    return d.caseCount;
-                });
-
-                var label = d3.arc()
-                    .outerRadius(radius + 30)
-                    .innerRadius(radius - 170);
-
-                var path = d3.arc()
-                    .outerRadius(radius - 10)
-                    .innerRadius(0);
-
-                var arc = g.selectAll(".arc")
-                    .data(pie(objectData))
-                    .enter().append("g")
-                    .attr("class", "arc")
-                    .on("mousemove", function (d) {
-                        NYCStattooltip.style("left", d3.event.pageX + 10 + "px")
-                            .style("top", d3.event.pageY + 10 + "px")
-                            .html(NYCStattooltipcontent(d))
-                            .style("background-color", "#25221E")
-                            .style("color", "white")
-                            .style("display", "block")
-                    })
-                    .on("mouseout", function (d) {
-                        NYCStattooltip.style("display", "none");
-                    });
-
-                arc.append("path")
-                    .attr("d", path)
-                    .attr("fill", function (d) {
-                        //console.log(colorScale(d.data.caseCount))
-                        return colorScale(d.data.caseCount);
-                    });
-
-                arc.append("text")
-                    .attr("text-anchor", "middle")
-                    .attr("transform", function (d) {
-                        var rotation = d.endAngle < Math.PI ? (d.startAngle / 2 + d.endAngle / 2) * 180 / Math.PI : (d.startAngle / 2 + d.endAngle / 2 + Math.PI) * 180 / Math.PI;
-                        return "translate(" + label.centroid(d) + ") rotate(-90) rotate(" + rotation + ")";
-                    })
-                    .text(function (d) {
-                        return d.data[displayText] + ": " + d.data.caseCount + " Cases";
-                    })
-                    .style("font-size", "12px")
-                    .style("font-weight", "bold");
-
-
-                svg.append("g")
-                    .attr("transform", "translate(" + (width / 2 - 60) + "," + 20 + ")")
-                    .append("text")
-                    .text(titleText)
-                    .attr("class", "title")
-                    .style("font-size", "20px")
-
-
-                function NYCStattooltipcontent(d) {
-                    //console.log(d)
-                    detailShow = "";
-                    detailShow += "Group: " + d.data[displayText];
-                    detailShow += "<br> Case Count: " + d.data.caseCount;
-                    detailShow += "<br> Case Rate: " + d.data.caseRate;
-                    detailShow += "<br> Death Count: " + d.data.deathCount;
-                    detailShow += "<br> Death Rate: " + d.data.deathRate;
-                    detailShow += "<br> Hospitalization Count: " + d.data.HospCount;
-                    detailShow += "<br> Hospitalization Rate: " + d.data.HospRate;
-                    return detailShow
-                }
-                
-            })
-        };
-       
-    </script>
+    
 </body>
 </html>
