@@ -205,7 +205,7 @@
                 let width = 700, height = 600;
                 let radius = Math.min(width, height) / 3;
                 let svg = d3.select("#nycStats").append('svg')
-                    .style("width", width).style("height", height);
+                    .attr("width", width).attr("height", height);
                 var g = svg.append("g")
                     .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
                 var color;

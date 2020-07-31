@@ -151,7 +151,7 @@
             var NYCMaptooltip = d3.select("body").append("div").attr("class", "toolTip");
 
             let svg = d3.select("#nycMap").append('svg')
-                .style("width", width).style("height", height);
+                .attr("width", width).attr("height", height);
 
             nycCombined = joinData(values[0].features, values[1]);
 
