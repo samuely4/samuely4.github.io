@@ -137,7 +137,7 @@
             var statDevText = "";
             
             if (value === "AgeGroup") {
-                statLink = "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/by-age.csv";
+                statLink = "https://raw.githubusercontent.com/samuely4/samuely4.github.io/master/data/by-age.csv";
                 displayText = "ageGroup";
                 titleText = "Age Statistics"
                 statData = d3.csv(statLink, function (d) {
@@ -154,7 +154,7 @@
                 statDevText = "<ul><li>Age Group '0-17 years' has the smallest number of COVID-19 cases.</li><li>The most affected Age Groups are those of '18-44 years' and '45-64 years' with total number of COVID-19 cases that is larger than the other three age groups combined.</li><li>Age Groups '65-74 years' and '75+ years' are specially vulnerable to COVID-19, and according to the chart, they constituted a large portion of total COVID-19 cases in NYC.</li></ul>"
             }
             else if (value === "Race") {
-                statLink = "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/by-race.csv";
+                statLink = "https://raw.githubusercontent.com/samuely4/samuely4.github.io/master/data/by-race.csv";
                 displayText = "RaceGroup";
                 titleText = "Race Statistics"
                 statData = d3.csv(statLink, function (d) {
@@ -171,7 +171,7 @@
                 statDevText = "<ul><li>Hispanic/Latino Race suffered the largest number of COVID-19 cases.</li><li>Black/African-American Race is the second highest in terms of COVID-19 cases. The three Races of White, Hispanic/Latino, and Black/African-American constitute the vast majority of COVID-19 cases in NYC.</li><li>Asian/Pacific-Islander Race has the smallest number of COVID-19 cases.</li></ul>"
             }
             else if (value === "PovertyLevel") {
-                statLink = "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/by-poverty.csv";
+                statLink = "https://raw.githubusercontent.com/samuely4/samuely4.github.io/master/data/by-poverty.csv";
                 displayText = "PovertyGroup";
                 titleText = "Poverty Statistics"
                 statData = d3.csv(statLink, function (d) {

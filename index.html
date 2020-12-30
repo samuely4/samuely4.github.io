@@ -126,7 +126,7 @@
 
     <script>
         var nycMap = d3.json('https://raw.githubusercontent.com/samuely4/samuely4.github.io/master/data/MODZCTA_2010_WGS1984.geo.json')
-        var nycMapDatatable = "https://raw.githubusercontent.com/nychealth/coronavirus-data/master/data-by-modzcta.csv";
+        var nycMapDatatable = "https://raw.githubusercontent.com/samuely4/samuely4.github.io/master/data/data-by-modzcta.csv";
         var nycMapdata = d3.csv(nycMapDatatable, function (d) {
             return {
                 zcta: +d.MODIFIED_ZCTA,
